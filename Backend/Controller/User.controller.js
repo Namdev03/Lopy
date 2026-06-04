@@ -4,7 +4,9 @@ import bcrypt from "bcrypt";
 import User from "../Model/User.model.js";
 import jwt from "jsonwebtoken";
 import cookie from "cookie-parser";
-
+import getDataUri from "../Utils/DataURI.js";
+import cloudinary from "../Utils/Cloudinary.js";
+//=====Register User=====
 export const registerUser = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -41,6 +43,7 @@ export const registerUser = async (req, res) => {
         });
     }
 };
+//=====Login User=====
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -61,8 +64,7 @@ export const loginUser = async (req, res) => {
                 message: "invailid credential"
             })
         }
-        console.log(process.env.SECRET_KEY);
-        
+        //  console.log(process.env.SECRET_KEY);
         const token = jwt.sign(
             { userId: isExist._id },
             process.env.SECRET_KEY,
@@ -89,8 +91,70 @@ export const loginUser = async (req, res) => {
             data: toSend
         })
     } catch (error) {
-        console.log(error);
-        
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+//=====Logout User=====
+export const logoutuser = async (req, res) => {
+    try {
+        res.clearCookie("token");
+        return res.status(200).json({
+            message: "Logged out successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+//=====User Profile=====
+export const userProfile = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        return res.status(200).json({
+            message: "user profile",
+            data: user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+
+};
+export const editProfile = async (req, res) => {
+    try {
+    const userid = req.id;
+    const {bio,gender}=req.body
+    const profilepic = req.file;
+let cloudResponse;
+     if (profilepic) {
+        const fileUri =getDataUri(profilepic);
+        await cloudinary.uploader.upload(fileUri)
+     }
+     const user = await User.findById(userid)
+     if (!user) {
+        return res.status(404).json({
+            message:"User not found",
+        })
+        if(bio) user.bio=bio;
+        if(gender) user.gender=gender;
+        if(profilepic) user.profilepic = cloudResponse.secure_url;
+        await user.save
+        return res.status(200).json({
+            message:"profile updatred",
+            data:user
+        })
+     }
+    } catch (error) {
         return res.status(500).json({
             message: error.message
         });
