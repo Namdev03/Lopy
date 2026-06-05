@@ -128,35 +128,96 @@ export const userProfile = async (req, res) => {
             message: error.message
         });
     }
-
 };
+//=====User Profile Edit=====
 export const editProfile = async (req, res) => {
     try {
-    const userid = req.id;
-    const {bio,gender}=req.body
-    const profilepic = req.file;
-let cloudResponse;
-     if (profilepic) {
-        const fileUri =getDataUri(profilepic);
-        await cloudinary.uploader.upload(fileUri)
-     }
-     const user = await User.findById(userid)
-     if (!user) {
-        return res.status(404).json({
-            message:"User not found",
-        })
-        if(bio) user.bio=bio;
-        if(gender) user.gender=gender;
-        if(profilepic) user.profilepic = cloudResponse.secure_url;
-        await user.save
-        return res.status(200).json({
-            message:"profile updatred",
-            data:user
-        })
-     }
+        const userid = req.id;
+        const { bio, gender } = req.body
+        const profilepic = req.file;
+        let cloudResponse;
+        if (profilepic) {
+            const fileUri = getDataUri(profilepic);
+            await cloudinary.uploader.upload(fileUri)
+        }
+        const user = await User.findById(userid)
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            })
+            if (bio) user.bio = bio;
+            if (gender) user.gender = gender;
+            if (profilepic) user.profilepic = cloudResponse.secure_url;
+            await user.save
+            return res.status(200).json({
+                message: "profile updated",
+                data: user
+            })
+        }
     } catch (error) {
         return res.status(500).json({
             message: error.message
         });
+    }
+};
+//=====SuggestedUsers=====
+export const getSuggestedUser = async (req, res) => {
+    try {
+        const suggestUsers = await User.find({ _id: { $ne: req.id } }).select("-password");
+        if (!suggestUsers) {
+            return res.status(400).json({
+                message: "Currently do not have any users",
+            })
+        }
+        return res.status(200).json({
+            message: "user fetch sucessfully",
+            users: suggestUsers
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+};
+//=====FOllow andunfollow =====
+export const followOrUnfollow = async (req, res) => {
+    try {
+        const followkarnewala = req.id;
+        const jiskoFollowkarung = req.params.id;
+        if (followkarnewala === jiskoFollowkarung) {
+            return res.status(400).json({
+                message: "you con not follow your self"
+            })
+        }
+        const user = await User.findById(followkarnewala);
+        const targetUser = await User.findById(jiskoFollowkarung)
+        if (!user || !targetUser) {
+            return res.status(400).json({
+                message: "User not found"
+            })
+        }
+        const isFollowing = user.following.includes(jiskoFollowkarung)
+        if (isFollowing) {
+            await Promise.all([
+            User.updateOne({ _id: followkarnewala }, { $pull: { following: jiskoFollowkarung } }),
+            User.updateOne({ _id: jiskoFollowkarung }, { $pull: { followers: followkarnewala } })
+        ])
+      return res.status(200).json({
+                message: "Unfollowed successfully"
+            })
+}
+        else {
+            await Promise.all([
+                User.updateOne({ _id: followkarnewala }, { $push: { following: jiskoFollowkarung } }),
+                User.updateOne({ _id: jiskoFollowkarung }, { $push: { followers: followkarnewala } })
+            ])
+             return res.status(200).json({
+                message: "following successfully"
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
     }
 }
