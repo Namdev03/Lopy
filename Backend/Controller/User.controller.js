@@ -113,7 +113,7 @@ export const logoutuser = async (req, res) => {
 export const userProfile = async (req, res) => {
     try {
         const userId = req.params.id;
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).select("-password");
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
@@ -133,30 +133,40 @@ export const userProfile = async (req, res) => {
 export const editProfile = async (req, res) => {
     try {
         const userid = req.id;
-        const { bio, gender } = req.body
+        const { bio, gender } = req.body;
         const profilepic = req.file;
+
         let cloudResponse;
+
         if (profilepic) {
             const fileUri = getDataUri(profilepic);
-            await cloudinary.uploader.upload(fileUri)
+            cloudResponse = await cloudinary.uploader.upload(fileUri);
         }
-        const user = await User.findById(userid)
+
+        const user = await User.findById(userid).select("-password");
+
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
-            })
-            if (bio) user.bio = bio;
-            if (gender) user.gender = gender;
-            if (profilepic) user.profilepic = cloudResponse.secure_url;
-            await user.save
-            return res.status(200).json({
-                message: "profile updated",
-                data: user
-            })
+            });
         }
+
+        if (bio) user.bio = bio;
+        if (gender) user.gender = gender;
+        if (cloudResponse) {
+            user.profilepic = cloudResponse.secure_url;
+        }
+
+        await user.save();
+
+        return res.status(200).json({
+            message: "Profile updated",
+            data: user,
+        });
+
     } catch (error) {
         return res.status(500).json({
-            message: error.message
+            message: error.message,
         });
     }
 };
