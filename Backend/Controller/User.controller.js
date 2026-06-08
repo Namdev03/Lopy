@@ -112,7 +112,7 @@ export const logoutuser = async (req, res) => {
 //=====User Profile=====
 export const userProfile = async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userId = req.id;
         const user = await User.findById(userId).select("-password");
         if (!user) {
             return res.status(404).json({

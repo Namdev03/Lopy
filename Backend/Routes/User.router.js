@@ -12,7 +12,7 @@ userRouter.post('/login',loginUser)
 //=====Logout user====
 userRouter.get('/logout',logoutuser)
 //=====User Profile======
-userRouter.get("/profile/:id",userAuthentiction, userProfile);
+userRouter.get("/profile",userAuthentiction, userProfile);
 //===== Edit User Profile======
 userRouter.post("/profile/edit",userAuthentiction,upload.single('profilepic'),editProfile);
 //===== suggested User Profile======

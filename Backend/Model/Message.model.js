@@ -8,9 +8,10 @@ const messageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    messages:{
+    message:{
         type: String,
-        required: true
+        required: true,
+        trim: true
     }
 },{timestamps: true})
 export default model("Message", messageSchema)

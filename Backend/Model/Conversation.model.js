@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 const conversationSchema = new Schema({
-    participants: [{
+     participants: [{
         type: Schema.Types.ObjectId,
         ref: "User",
     }],
