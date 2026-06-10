@@ -21,11 +21,11 @@ const Signup = () => {
           {/* Logo */}
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 overflow-hidden rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 overflow-hidden rounded-full  ">
               <img
                 src={logo}
                 alt="Lopy Logo"
-                className="w-full h-full object-cover object-center scale-[2.5]"
+                className="w-full h-full object-cover"
               />
             </div>
 

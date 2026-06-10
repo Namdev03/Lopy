@@ -1,5 +1,8 @@
-export const pagePath ={
-//=====Not authenticated=====
-  SIGNUP :'/signup',
-  LOGIN :'/login'
+export const pagePath = {
+  //=====Not authenticated=====
+  HOME: '/',
+  SIGNUP: '/signup',
+  LOGIN: '/login',
+
+
 }
