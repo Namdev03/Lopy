@@ -50,7 +50,7 @@ export const addNewPost = async (req, res) => {
 
         return res.status(201).json({
             message: "New Post added",
-            data: post,
+             post,
         });
     } catch (error) {
         return res.status(500).json({
@@ -78,7 +78,7 @@ export const getAllPosts = async (req, res) => {
 
         return res.status(200).json({
             message: "Posts fetched successfully",
-            data: posts
+            posts
         });
     } catch (error) {
         return res.status(500).json({
@@ -103,7 +103,7 @@ export const getUserPost = async (req, res) => {
         });
         return res.status(200).json({
             message: "post fetch successfully",
-            data: post
+         post
         })
     } catch (error) {
         res.status(500).json({
@@ -188,7 +188,7 @@ export const addComment = async (req, res) => {
 
         return res.status(201).json({
             message: "Comment added successfully",
-            data: comment
+               comment
         });
 
     } catch (error) {

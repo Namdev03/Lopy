@@ -3,6 +3,7 @@ export const pagePath = {
   HOME: '/',
   SIGNUP: '/signup',
   LOGIN: '/login',
-
+//=====authenticated router=====
+        MAINHOME:'/home',
 
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import logo from "../assets/Lopy.jpeg";
+import { pagePath } from '../Router/pagePath'
 const Signup = () => {
   const {
     register,
@@ -139,7 +140,7 @@ const Signup = () => {
             <p className="text-center text-gray-500 text-sm sm:text-base">
               Already have an account?{" "}
               <Link
-                to="/login"
+                to={pagePath.LOGIN}
                 className="text-indigo-600 hover:text-indigo-700 font-semibold"
               >
                 Login

@@ -1,5 +1,7 @@
 import React from "react";
 import logo from "../assets/Lopy.jpeg";
+import { pagePath } from "../Router/pagePath";
+import { Link } from "react-router";
 import {
   Heart,
   MessageCircle,
@@ -48,13 +50,13 @@ const Home = () => {
             </div>
             {/* Navigation */}
             <div className="flex items-center gap-3">
-              <button className="hidden sm:block px-4 py-2 text-sm font-medium text-gray-700 hover:text-black transition">
+              <Link to={pagePath.LOGIN} className="hidden sm:block px-4 py-2 text-sm font-medium text-gray-700 hover:text-black transition">
                 Sign In
-              </button>
+              </Link>
 
-              <button className="px-4 py-2 text-sm font-medium text-white rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 transition">
+              <Link to={pagePath.SIGNUP} className="px-4 py-2 text-sm font-medium text-white rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 transition">
                 Sign Up
-              </button>
+              </Link>
 
               <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition">
                 <User size={20} />

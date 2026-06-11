@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { pagePath } from "../Router/pagePath";
+import { Link } from "react-router";
 
 export default function Login() {
   const {
@@ -140,12 +142,12 @@ export default function Login() {
           {/* Footer */}
           <p className="mt-6 text-center text-sm sm:text-base text-slate-500">
             Don't have an account?{" "}
-            <button
-              type="button"
+            <Link
+              to={pagePath.SIGNUP}
               className="font-semibold text-blue-600 hover:text-blue-700"
             >
               Sign Up
-            </button>
+            </Link>
           </p>
         </div>
 

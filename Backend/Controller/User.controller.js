@@ -7,6 +7,11 @@ import cookie from "cookie-parser";
 import getDataUri from "../Utils/DataURI.js";
 import cloudinary from "../Utils/Cloudinary.js";
 //=====Register User=====
+const cookieOptions ={
+            httpOnly: true,
+            sameSite: 'None',
+            maxAge: 1 * 24 * 60 * 60 * 1000
+        };
 export const registerUser = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -34,7 +39,7 @@ export const registerUser = async (req, res) => {
 
         return res.status(201).json({
             message: "User registered successfully",
-            data: registeruser
+             registeruser
         });
 
     } catch (error) {
@@ -70,11 +75,7 @@ export const loginUser = async (req, res) => {
             process.env.SECRET_KEY,
             { expiresIn: "1d" }
         );
-        res.cookie('token', token, {
-            httpOnly: true,
-            sameSite: 'strict',
-            maxAge: 1 * 24 * 60 * 60 * 1000
-        })
+        res.cookie('token', token,cookieOptions )
         const toSend = {
             _id: isExist._id,
             username: isExist.username,
@@ -88,7 +89,7 @@ export const loginUser = async (req, res) => {
         }
         res.status(200).json({
             message: `Login sucessfully ${isExist.username}`,
-            data: toSend
+             toSend
         })
     } catch (error) {
         return res.status(500).json({
@@ -99,7 +100,7 @@ export const loginUser = async (req, res) => {
 //=====Logout User=====
 export const logoutuser = async (req, res) => {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token",cookieOptions);
         return res.status(200).json({
             message: "Logged out successfully"
         });
@@ -121,7 +122,7 @@ export const userProfile = async (req, res) => {
         }
         return res.status(200).json({
             message: "user profile",
-            data: user
+            user
         })
     } catch (error) {
         return res.status(500).json({
@@ -161,7 +162,7 @@ export const editProfile = async (req, res) => {
 
         return res.status(200).json({
             message: "Profile updated",
-            data: user,
+            user,
         });
 
     } catch (error) {
@@ -181,7 +182,7 @@ export const getSuggestedUser = async (req, res) => {
         }
         return res.status(200).json({
             message: "user fetch sucessfully",
-            users: suggestUsers
+            suggestUsers
         })
     } catch (error) {
         return res.status(500).json({
