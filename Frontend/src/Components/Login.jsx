@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { pagePath } from "../Router/pagePath";
 import { Link } from "react-router";
+import { loginApi } from "../Services/userApiCollection";
 
 export default function Login() {
   const {
@@ -9,14 +10,14 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-
-  const onSubmit = async (data) => {
-    console.log("Login Data:", data);
-
-    // Example API call
-    // await login(data);
-  };
-
+const submit = async(paylaod)=>{
+  try {
+     const response = await loginApi(paylaod);
+     alert (response.message);   
+  } catch (error) {
+    alert (response.message);
+  }
+}
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6">
       <div className="w-full max-w-sm sm:max-w-md">
@@ -34,7 +35,7 @@ export default function Login() {
 
           {/* Form */}
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(submit)}
             className="space-y-5"
           >
             {/* Email */}

@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import logo from "../assets/Lopy.jpeg";
 import { pagePath } from '../Router/pagePath'
+import { registerApi } from "../Services/userApiCollection";
+import { userApiEndPoint } from "../Router/UserEndPoints";
 const Signup = () => {
   const {
     register,
@@ -10,9 +12,15 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+ const submit = async(payload)=>{
+  try {
+    const response = await registerApi(payload);
+    alert (response.message)
+    console.log(response);    
+  } catch (error) {
+    alert (response.message)
+  }
+ }
 
   return (
     <div className="min-h-dvh bg-gradient-to-br from-indigo-100 via-white to-purple-100 flex items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
@@ -29,7 +37,6 @@ const Signup = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-
             <h1 className="mt-6 text-3xl sm:text-4xl font-bold text-gray-900">
               Welcome to Lopy
             </h1>
@@ -37,7 +44,7 @@ const Signup = () => {
 
           {/* Form */}
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(submit)}
             className="space-y-4 sm:space-y-5"
           >
             {/* Username */}
