@@ -12,7 +12,8 @@ export const sendMessage = async (req, res) => {
 
         if (!message?.trim()) {
             return res.status(400).json({
-                message: "Message is required"
+                message: "Message is required",
+                status:false
             });
         }
 
@@ -38,7 +39,8 @@ export const sendMessage = async (req, res) => {
 
         return res.status(201).json({
             message: "Message sent successfully",
-            newMessage
+            newMessage,
+            status:true
         });
 
     } catch (error) {

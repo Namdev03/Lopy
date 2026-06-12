@@ -14,6 +14,7 @@ export const addNewPost = async (req, res) => {
         if (!image) {
             return res.status(400).json({
                 message: "Image required",
+                status:false
             });
         }
 
@@ -51,6 +52,7 @@ export const addNewPost = async (req, res) => {
         return res.status(201).json({
             message: "New Post added",
              post,
+             status:true
         });
     } catch (error) {
         return res.status(500).json({
@@ -78,7 +80,8 @@ export const getAllPosts = async (req, res) => {
 
         return res.status(200).json({
             message: "Posts fetched successfully",
-            posts
+            posts,
+            status:true
         });
     } catch (error) {
         return res.status(500).json({
@@ -103,7 +106,8 @@ export const getUserPost = async (req, res) => {
         });
         return res.status(200).json({
             message: "post fetch successfully",
-         post
+         post,
+         status:true
         })
     } catch (error) {
         res.status(500).json({
@@ -121,7 +125,8 @@ export const toggleLikePost = async (req, res) => {
 
         if (!post) {
             return res.status(404).json({
-                message: "Post not found"
+                message: "Post not found",
+                status:false
             });
         }
 
@@ -133,7 +138,8 @@ export const toggleLikePost = async (req, res) => {
             });
 
             return res.status(200).json({
-                message: "Post unliked"
+                message: "Post unliked",
+                status:true
             });
         }
 
@@ -142,7 +148,8 @@ export const toggleLikePost = async (req, res) => {
         });
 
         return res.status(200).json({
-            message: "Post liked"
+            message: "Post liked",
+            status:true
         });
 
     } catch (error) {
@@ -160,7 +167,8 @@ export const addComment = async (req, res) => {
 
         if (!text?.trim()) {
             return res.status(400).json({
-                message: "Text is required"
+                message: "Text is required",
+                status:false
             });
         }
 
@@ -188,7 +196,8 @@ export const addComment = async (req, res) => {
 
         return res.status(201).json({
             message: "Comment added successfully",
-               comment
+               comment,
+               status:true
         });
 
     } catch (error) {
@@ -207,7 +216,8 @@ export const getcommentofPost = async (req, res) => {
 
         return res.status(200).json({
             message: "Comments fetched successfully",
-            data: comments
+            comments,
+            status:true
         });
 
     } catch (error) {
@@ -226,13 +236,15 @@ export const deletePost = async (req, res) => {
 
         if (!post) {
             return res.status(404).json({
-                message: "Post not found"
+                message: "Post not found",
+                status:false
             });
         }
 
         if (post.author.toString() !== authorId) {
             return res.status(403).json({
-                message: "Unauthorized"
+                message: "Unauthorized",
+                status:false
             });
         }
 
@@ -253,7 +265,8 @@ export const deletePost = async (req, res) => {
         });
 
         return res.status(200).json({
-            message: "Post deleted successfully"
+            message: "Post deleted successfully",
+            status:true
         });
 
     } catch (error) {
@@ -272,7 +285,8 @@ export const bookmarkPost = async (req, res) => {
 
         if (!post) {
             return res.status(404).json({
-                message: "Post not found"
+                message: "Post not found",
+                status:false
             });
         }
 
@@ -280,7 +294,8 @@ export const bookmarkPost = async (req, res) => {
 
         if (!user) {
             return res.status(404).json({
-                message: "User not found"
+                message: "User not found",
+                status:false
             });
         }
 
@@ -294,7 +309,8 @@ export const bookmarkPost = async (req, res) => {
             });
 
             return res.status(200).json({
-                message: "Post removed from bookmarks"
+                message: "Post removed from bookmarks",
+                status:true
             });
         }
 
@@ -303,7 +319,8 @@ export const bookmarkPost = async (req, res) => {
         });
 
         return res.status(200).json({
-            message: "Post bookmarked"
+            message: "Post bookmarked",
+            status:true
         });
 
     } catch (error) {
