@@ -3,16 +3,18 @@ import { useForm } from "react-hook-form";
 import { pagePath } from "../Router/pagePath";
 import { Link } from "react-router";
 import { loginApi } from "../Services/userApiCollection";
-
+import { loginUserAsync } from "../Redux/userSlice";
+import {useDispatch} from 'react-redux'
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
+const dispatch = useDispatch();
 const submit = async(paylaod)=>{
   try {
-     const response = await loginApi(paylaod);
+     const response = await dispatch(loginUserAsync(paylaod));
      alert (response.message);   
   } catch (error) {
     alert (response.message);
