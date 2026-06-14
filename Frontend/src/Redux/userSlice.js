@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi } from "../Services/userApiCollection";
+import { loginApi, registerApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
@@ -7,13 +7,26 @@ const initialState = {
   userDetails: null,
   userId: null,
 };
-
+// =====Register User=====
+// export const registerUserAsync = createAsyncThunk("user/registe",async(payload)=>{
+// try {
+//    const response = await registerApi(payload);
+//    return response;
+// } catch (error) {
+//   return error.response;
+// }
+// })
+// =====Login User=====
 export const loginUserAsync = createAsyncThunk(
   "user/login",
   async (payload) => {
+    try{
     const response = await loginApi(payload);
     return response;
   }
+  catch(error){
+  return error.response;
+  }}
 );
 
 const userSlice = createSlice({

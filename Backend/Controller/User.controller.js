@@ -9,47 +9,52 @@ import cloudinary from "../Utils/Cloudinary.js";
 //=====Register User=====
 const cookieOptions = {
     httpOnly: true,
-    sameSite: 'None',
-    maxAge: 1 * 24 * 60 * 60 * 1000
+    secure: true,      // required with SameSite=None
+    sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000
 };
 export const registerUser = async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
+  try {
+    const { username, email, password } = req.body;
 
-        if (!username || !email || !password) {
-            return res.status(400).json({
-                message: "Something is missing, please check!",
-                status: false
-            });
-        }
-        const isexists = await User.findOne({ email });
-        //===== check user already exists or not=====
-        if (isexists) {
-            return res.status(409).json({
-                message: "User already exists",
-                status: false
-            });
-        }
-        // ===== hash the password for security=====
-        const hashPassword = await bcrypt.hash(password, 10);
-        //===== create new user in database=====
-        const registeruser = await User.create({
-            username,
-            email,
-            password: hashPassword
-        });
-
-        return res.status(201).json({
-            message: "User registered successfully",
-            registeruser,
-            status:true
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message
-        });
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+        status: false
+      });
     }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        message: "User already exists",
+        status: false
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword
+    });
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      user,
+      status: true
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: error.message,
+      status: false
+    });
+  }
 };
 //=====Login User=====
 export const loginUser = async (req, res) => {

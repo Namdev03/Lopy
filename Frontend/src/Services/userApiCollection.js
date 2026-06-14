@@ -1,5 +1,5 @@
-import { userApiEndPoint } from "../Router/UserEndPoints"
-import { axiosInstance } from "./axiosInstance"
+import { userApiEndPoint } from "../Router/UserEndPoints.js"
+import { axiosInstance } from "./axiosInstance.js"
 
 export const loginApi= async(payload)=>{
     try {

@@ -4,6 +4,6 @@ export const pagePath = {
   SIGNUP: '/signup',
   LOGIN: '/login',
 //=====authenticated router=====
-        MAINHOME:'/home',
+   MAINHOME:'/home',
 
 }

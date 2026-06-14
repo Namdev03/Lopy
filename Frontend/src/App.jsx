@@ -6,7 +6,7 @@ import Login from './Components/Login'
 import Home from './Pages/Home'
 import MainHome from './Pages/MainHome'
 import PageNotFound from './Components/PagenoteFound'
-import Protected from './Router/Protected.jsx'
+// import Protected from './Router/Protected.jsx'
 
 function App() {
   return (
@@ -15,9 +15,9 @@ function App() {
     <Route path={pagePath.LOGIN} element={<Login/>}/>
     <Route path={pagePath.HOME} element={<Home/>}/>
   {/* =====Ptotected router===== */}
-    <Route element={<Protected/>} >
+    {/* <Route element={<Protected/>} > */}
     <Route path={pagePath.MAINHOME} element={<MainHome/>}/>
-    </Route>
+    {/* </Route> */}
     <Route path="*" element={<PageNotFound />} />
   </Routes>
 

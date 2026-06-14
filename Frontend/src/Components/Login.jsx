@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { pagePath } from "../Router/pagePath";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { loginApi } from "../Services/userApiCollection";
 import { loginUserAsync } from "../Redux/userSlice";
 import {useDispatch} from 'react-redux'
@@ -12,14 +12,21 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = useForm();
 const dispatch = useDispatch();
-const submit = async(paylaod)=>{
+const navigate = useNavigate();
+const submit = async (payload) => {
   try {
-     const response = await dispatch(loginUserAsync(paylaod));
-     alert (response.message);   
+    const response = await dispatch(loginUserAsync(payload)).unwrap();
+    alert(response.message);
+    if(response.status ==true){
+      navigate(pagePath.MAINHOME)
+    }
+    else{
+      navigate(pagePath.LOGIN)
+    }
   } catch (error) {
-    alert (response.message);
+    alert(error.message || "Login failed");
   }
-}
+};
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6">
       <div className="w-full max-w-sm sm:max-w-md">
