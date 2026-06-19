@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/Lopy.jpeg";
+import {useSelector} from 'react-redux'
 import {
   Home,
   Search,
@@ -8,6 +9,8 @@ import {
   Heart,
   SquarePlus,
 } from "lucide-react";
+import { Link } from "react-router";
+import { pagePath } from "../Router/pagePath";
 
 const navItems = [
   { id: 1, name: "Home", icon: Home },
@@ -17,10 +20,10 @@ const navItems = [
   { id: 5, name: "Notifications", icon: Heart, badge: 12 },
   { id: 6, name: "Create", icon: SquarePlus },
 ];
-
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
-
+  const userDetails = useSelector((state)=>state.user.userDetails);
+console.log(userDetails?.toSend);
   return (
     <>
       {/* Desktop Sidebar */}
@@ -82,18 +85,18 @@ export default function Sidebar() {
 
         {/* Profile */}
         <div className="border-t border-zinc-200 p-4">
-          <button className="flex items-center gap-3 w-full rounded-xl p-2 hover:bg-zinc-100">
+          <Link to={pagePath.USERPROFILE} className="flex items-center gap-3 w-full rounded-xl p-2 hover:bg-zinc-100">
             <img
-              src="https://i.pravatar.cc/150?img=12"
+              src={userDetails?.toSend?.profilepic}
               alt="profile"
               className="w-10 h-10 rounded-full"
             />
 
             <div className="hidden xl:block text-left">
-              <h4 className="font-semibold text-sm">johndoe</h4>
+              <h4 className="font-semibold text-sm">{userDetails?.toSend?.username}</h4>
               <p className="text-xs text-zinc-500">View Profile</p>
             </div>
-          </button>
+          </Link>
         </div>
       </aside>
 
@@ -130,9 +133,10 @@ export default function Sidebar() {
               </button>
             );
           })}
-
+     <Link  to={pagePath.USERPROFILE} >
           <img
-            src="https://i.pravatar.cc/150?img=12"
+          to={pagePath.USERPROFILE}
+            src={userDetails?.toSend?.profilepic}
             alt="profile"
             className={`w-8 h-8 rounded-full cursor-pointer transition ${
               activeItem === 99
@@ -141,8 +145,21 @@ export default function Sidebar() {
             }`}
             onClick={() => setActiveItem(99)}
           />
+          </Link>
         </div>
       </div>
     </>
   );
 }
+import { Outlet } from "react-router";
+ export const Layout = () => {
+  return (
+    <div className="flex">
+      <Sidebar />
+
+      <div className="flex-1 md:ml-20 xl:ml-72">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
