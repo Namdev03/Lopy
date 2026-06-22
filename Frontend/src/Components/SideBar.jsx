@@ -156,7 +156,6 @@ import { Outlet } from "react-router";
   return (
     <div className="flex">
       <Sidebar />
-
       <div className="flex-1 md:ml-20 xl:ml-72">
         <Outlet />
       </div>
