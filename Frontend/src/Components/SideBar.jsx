@@ -13,7 +13,7 @@ import { Link } from "react-router";
 import { pagePath } from "../Router/pagePath";
 
 const navItems = [
-  { id: 1, name: "Home", icon: Home },
+  { id: 1, name: "Home", icon: Home ,path:'/home'},
   { id: 2, name: "Search", icon: Search },
   { id: 3, name: "Reels", icon: Clapperboard },
   { id: 4, name: "Messages", icon: Send, badge: 7 },
@@ -23,7 +23,6 @@ const navItems = [
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
   const userDetails = useSelector((state)=>state.user.userDetails);
-console.log(userDetails?.toSend);
   return (
     <>
       {/* Desktop Sidebar */}
@@ -43,9 +42,9 @@ console.log(userDetails?.toSend);
             const Icon = item.icon;
 
             return (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => setActiveItem(item.id)}
+               to={item.path}
                 className={`relative flex items-center justify-center xl:justify-start gap-4 w-full p-3 rounded-xl mb-2 transition-all ${
                   activeItem === item.id
                     ? "bg-zinc-100 shadow-md"
@@ -78,7 +77,7 @@ console.log(userDetails?.toSend);
                 >
                   {item.name}
                 </span>
-              </button>
+              </Link>
             );
           })}
         </nav>

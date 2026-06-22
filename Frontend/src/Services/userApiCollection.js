@@ -25,3 +25,13 @@ export const logoutApi= async()=>{
         return error.response.data;
     }
 };
+// export const suggesteUserApi = async () => {
+//     try { 
+//         const response = await axiosInstance.get(userApiEndPoint.SUGGESTUSER)
+//         return response.data;
+//         console.log(response);
+        
+//     } catch (error) {
+//         return error.response.data;
+//     }
+// }
