@@ -1,45 +1,34 @@
 import React from "react";
 import StoryNavbar from "../Components/StoryNavbar";
 import UserSuggestions from "../Components/Suggestion";
+import PostCard from "../Components/PostCard";
 
 function MainHome() {
-  const posts = [1, 2, 3];
-
   return (
-    <div className="min-h-screen bg-zinc-50"> <div className="max-w-[1200px] mx-auto px-3 sm:px-4 lg:px-6"> <div className="flex justify-center gap-8">
-      <div className="min-h-screen bg-zinc-50">
-        <div className="max-w-[1100px] mx-auto px-3 sm:px-4">
-          <div className="flex justify-start gap-35">
-              <main className="flex-1 max-w-[600px]">
-              <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-                <StoryNavbar />
-              </div>
-              <div className="py-5 space-y-5">
-                {posts.map((post) => (
-                  <div
-                    key={post} className="  bg-white border   border-zinc-200 rounded-2xl min-h-[500px] shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex items-center justify-center h-[500px] text-zinc-500">
-                      Post {post}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </main>
+    <div className="min-h-screen bg-zinc-50">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        
+        <div className="grid grid-cols-1 xl:grid-cols-[620px_320px] justify-center gap-8 xl:gap-12">
+          
+          {/* Feed Section */}
+          <main className="w-full max-w-[620px] mx-auto">
+            <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+              <StoryNavbar />
+            </div>
 
-            {/* Suggestions */}
-            <aside className="hidden xl:block w-[280px] shrink-0 pt-6">
-              <div className="sticky top-6">
-                <UserSuggestions />
-              </div>
-            </aside>
-          </div>
+            <div className="py-4 space-y-6">
+              <PostCard />
+            </div>
+          </main>
+          {/* Suggestions Sidebar */}
+          <aside className="hidden xl:block">
+            <div className="sticky top-6 w-[320px]">
+              <UserSuggestions />
+            </div>
+          </aside>
 
         </div>
       </div>
-
-    </div>
-    </div>
     </div>
   );
 }

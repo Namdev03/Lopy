@@ -11,7 +11,7 @@ export default function UserSuggestions() {
         userApiEndPoint.SUGGESTUSER
       );
 
-      console.log("Response Data:", response.data.suggestUsers);
+      // console.log("Response Data:", response.data.suggestUsers);
 
       setUserData(response.data.suggestUsers);
     } catch (error) {
