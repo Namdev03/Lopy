@@ -63,11 +63,11 @@ export const addNewPost = async (req, res) => {
 //=====Get All Post=====
 export const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find({})
             .sort({ createdAt: -1 })
             .populate({
                 path: "author",
-                select: "username profilePic"
+                select: "username profilepic"
             })
             .populate({
                 path: "comments",
@@ -76,16 +76,21 @@ export const getAllPosts = async (req, res) => {
                     path: "author",
                     select: "username profilePic"
                 }
-            });
-
+            })
+            .lean();
+            // console.log(posts);
+            
         return res.status(200).json({
+            success: true,
             message: "Posts fetched successfully",
-            posts,
-            status:true
+            posts
         });
     } catch (error) {
+        console.error("Get posts error:", error);
+
         return res.status(500).json({
-            message: error.message
+            success: false,
+            message: "Internal server error"
         });
     }
 };

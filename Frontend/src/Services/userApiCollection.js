@@ -8,7 +8,7 @@ export const loginApi= async(payload)=>{
     } catch (error) {
         return error.response.data;
     }
-};
+}
 export const registerApi= async(payload)=>{
     try {
         const response = await axiosInstance.post(userApiEndPoint.SIGNUP,payload)
@@ -16,7 +16,7 @@ export const registerApi= async(payload)=>{
     } catch (error) {
         return error.response.data ;
     }
-};
+}
 export const logoutApi= async()=>{
     try {
         const response = await axiosInstance.get(userApiEndPoint.LOGOUT)
@@ -24,7 +24,7 @@ export const logoutApi= async()=>{
     } catch (error) {
         return error.response.data;
     }
-};
+}
 // export const suggesteUserApi = async () => {
 //     try { 
 //         const response = await axiosInstance.get(userApiEndPoint.SUGGESTUSER)
