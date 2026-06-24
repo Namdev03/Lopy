@@ -106,8 +106,9 @@ export default function Sidebar() {
             const Icon = item.icon;
 
             return (
-              <button
-                key={item.id}
+              <Link
+                 key={item.id}
+               to={item.path}
                 onClick={() => setActiveItem(item.id)}
                 className={`relative p-2 rounded-xl transition ${
                   activeItem === item.id
@@ -129,7 +130,7 @@ export default function Sidebar() {
                     {item.badge}
                   </span>
                 )}
-              </button>
+              </Link>
             );
           })}
      <Link  to={pagePath.USERPROFILE} >
@@ -151,13 +152,15 @@ export default function Sidebar() {
   );
 }
 import { Outlet } from "react-router";
- export const Layout = () => {
+
+export function Layout() {
   return (
-    <div className="flex">
+    <>
       <Sidebar />
-      <div className="flex-1 md:ml-20 xl:ml-72">
+
+      <main className="flex-1 md:ml-64 overflow-x-hidden">
         <Outlet />
-      </div>
-    </div>
+      </main>
+    </>
   );
-};
+}

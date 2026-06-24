@@ -8,23 +8,30 @@ import MainHome from './Pages/MainHome'
 import PageNotFound from './Components/PagenoteFound'
 import UserProfilePage from './Pages/UserProfilepage'
 import Sidebar, { Layout } from './Components/SideBar'
-// import Protected from './Router/Protected.jsx'
+import Protected from './Router/Protected.jsx'
 
 function App() {
   return (
   <Routes>
-    <Route path={pagePath.SIGNUP} element={<Signup/>}/>
-    <Route path={pagePath.LOGIN} element={<Login/>}/>
-    <Route path={pagePath.HOME} element={<Home/>}/>
-  {/* =====Ptotected router===== */}
-    {/* <Route element={<Protected/>} > */}
-    <Route element={<Layout/>}>
-    <Route path={pagePath.MAINHOME} element={<MainHome/>}/>
-    <Route path={pagePath.USERPROFILE} element={<UserProfilePage/>}/>
-    {/* </Route> */}
+  <Route path={pagePath.SIGNUP} element={<Signup />} />
+  <Route path={pagePath.LOGIN} element={<Login />} />
+  <Route path={pagePath.HOME} element={<Home />} />
+
+  <Route element={<Protected />}>
+    <Route element={<Layout />}>
+      <Route
+        path={pagePath.MAINHOME}
+        element={<MainHome />}
+      />
+      <Route
+        path={pagePath.USERPROFILE}
+        element={<UserProfilePage />}
+      />
     </Route>
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+  </Route>
+
+  <Route path="*" element={<PageNotFound />} />
+</Routes>
 
   )
 }

@@ -4,5 +4,6 @@ export const userApiEndPoint = {
     LOGOUT:"/user/logout",
     //=====Authenticated End point =====
     SUGGESTUSER:"/user/suggestedUser",
+    LIKEUNLIKE : "/post/like",
     
 }
