@@ -8,3 +8,4 @@ export const getAllPostApi = async () => {
         error.response?.data;
     }
 }
+//=====get comment=====

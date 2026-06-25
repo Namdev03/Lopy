@@ -169,6 +169,8 @@ export const addComment = async (req, res) => {
         const postId = req.params.id;
         const userId = req.id;
         const { text } = req.body;
+        console.log(text);
+        
 
         if (!text?.trim()) {
             return res.status(400).json({

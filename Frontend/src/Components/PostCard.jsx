@@ -1,143 +1,136 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import {
   Heart,
   MessageCircle,
   Share2,
   MoreHorizontal,
-  Bookmark
+  Bookmark,
 } from 'lucide-react';
 
-import { getAllPostApi } from '../Services/postApiCollection';
 import { axiosInstance } from '../Services/axiosInstance';
 import { userApiEndPoint } from '../Router/UserEndPoints';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { allPostAsync } from '../Redux/postSlice';
+// import Loading from './Loading';
+import { useNavigate } from 'react-router'
+import { pagePath } from '../Router/pagePath';
 export default function PostCard() {
-  const [postData, setPostData] = useState([]);
   const [savedPosts, setSavedPosts] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userDetails } = useSelector(
+    (store) => store.user
+  );
 
-  const { userDetails } = useSelector((store) => store.user);
-  const currentUserId = userDetails?.toSend?._id;
+  const { loading, post } = useSelector(
+    (store) => store.post
+  );
+  const currentUserId =
+    userDetails?.toSend?._id;
 
-  const getAllPost = async () => {
-    try {
-      const response = await getAllPostApi();
-      setPostData(response?.posts || []);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(allPostAsync());
+  }, [dispatch]);
 
   const handleLike = async (id) => {
     if (!currentUserId) return;
-
     try {
-      await axiosInstance.post(`${userApiEndPoint.LIKEUNLIKE}/${id}`);
-
-      setPostData((prev) =>
-        prev.map((post) => {
-          if (post._id !== id) return post;
-
-          const likes = post.likes || [];
-          const isLiked = likes.includes(currentUserId);
-
-          return {
-            ...post,
-            likes: isLiked
-              ? likes.filter((u) => u !== currentUserId)
-              : [...likes, currentUserId],
-          };
-        })
+      await axiosInstance.post(
+        `${userApiEndPoint.LIKEUNLIKE}/${id}`
       );
+      dispatch(allPostAsync());
     } catch (error) {
-      console.log(error.response?.data || error.message);
+      console.log(
+        error.response?.data || error.message
+      );
     }
   };
 
-  useEffect(() => {
-    getAllPost();
-  }, []);
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   return (
     <>
-      {postData.map((post) => {
-        const likes = post.likes || [];
-        const isLiked = likes.includes(currentUserId);
+      {post?.map((item) => {
+        const likes = item.likes || [];
+        const isLiked = likes.includes(
+          currentUserId
+        );
 
         return (
           <div
-            key={post._id}
+            key={item._id}
             className="w-full max-w-md mx-auto bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden mb-6"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b">
               <div className="flex items-center gap-3">
                 <img
-                  src={post.author?.profilePic}
+                  src={item.author?.profilePic}
+                  alt={item.author?.username}
                   className="w-10 h-10 rounded-full object-cover"
-                  alt=""
                 />
+
                 <p className="font-semibold text-sm">
-                  {post.author?.username}
+                  {item.author?.username}
                 </p>
               </div>
 
               <MoreHorizontal className="w-5 h-5 text-gray-600" />
             </div>
 
-            {/* Image */}
+            {/* Post Image */}
             <img
-              src={post.image}
+              src={item.image}
+              alt="post"
               className="w-full aspect-square object-cover"
-              alt=""
             />
 
-            {/* Actions (FIXED ALIGNMENT HERE) */}
+            {/* Actions */}
             <div className="flex items-center justify-between px-4 py-3">
-              
-              {/* LEFT ICONS */}
               <div className="flex items-center gap-4">
-                
                 <button
-                  onClick={() => handleLike(post._id)}
-                  className="flex items-center justify-center"
+                  type="button"
+                  onClick={() => handleLike(item._id)}
                 >
                   <Heart
-                    className={`w-6 h-6 transition ${
-                      isLiked
-                        ? 'fill-red-500 text-red-500'
-                        : 'text-gray-700'
-                    }`}
+                    className={`w-6 h-6 transition ${isLiked
+                      ? 'fill-red-500 text-red-500'
+                      : 'text-gray-700'
+                      }`}
                   />
                 </button>
 
-                <button className="flex items-center justify-center">
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate(`${pagePath.COMMENT}/${item._id}`)
+                  
+                  }
+                >
                   <MessageCircle className="w-6 h-6 text-gray-700" />
                 </button>
 
-                <button className="flex items-center justify-center">
+                <button type="button">
                   <Share2 className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
-
-              {/* RIGHT ICON */}
               <button
+                type="button"
                 onClick={() =>
                   setSavedPosts((prev) => ({
                     ...prev,
-                    [post._id]: !prev[post._id],
+                    [item._id]:
+                      !prev[item._id],
                   }))
                 }
-                className="flex items-center justify-center"
               >
                 <Bookmark
-                  className={`w-6 h-6 ${
-                    savedPosts[post._id]
-                      ? 'fill-black text-black'
-                      : 'text-gray-700'
-                  }`}
+                  className={`w-6 h-6 ${savedPosts[item._id]
+                    ? 'fill-black text-black'
+                    : 'text-gray-700'
+                    }`}
                 />
               </button>
             </div>
@@ -152,14 +145,15 @@ export default function PostCard() {
             {/* Caption */}
             <div className="px-4 pb-3 text-sm">
               <span className="font-semibold">
-                {post.author?.username}
+                {item.author?.username}
               </span>{' '}
-              {post.caption}
+              {item.caption}
             </div>
 
             {/* Comments */}
             <div className="px-4 pb-3 text-sm text-gray-500">
-              View all {post.comments?.length || 0} comments
+              View all {item.comments?.length || 0}{' '}
+              comments
             </div>
           </div>
         );

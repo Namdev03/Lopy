@@ -18,7 +18,7 @@ const navItems = [
   { id: 3, name: "Reels", icon: Clapperboard },
   { id: 4, name: "Messages", icon: Send, badge: 7 },
   { id: 5, name: "Notifications", icon: Heart, badge: 12 },
-  { id: 6, name: "Create", icon: SquarePlus },
+  { id: 6, name: "Create", icon: SquarePlus, path:"/newpost"},
 ];
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);

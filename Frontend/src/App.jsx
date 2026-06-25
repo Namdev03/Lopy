@@ -9,29 +9,39 @@ import PageNotFound from './Components/PagenoteFound'
 import UserProfilePage from './Pages/UserProfilepage'
 import Sidebar, { Layout } from './Components/SideBar'
 import Protected from './Router/Protected.jsx'
+import CommentForm from './Components/comment.jsx'
+import NewPost from './Components/NewPost.jsx'
 
 function App() {
   return (
-  <Routes>
-  <Route path={pagePath.SIGNUP} element={<Signup />} />
-  <Route path={pagePath.LOGIN} element={<Login />} />
-  <Route path={pagePath.HOME} element={<Home />} />
+    <Routes>
+      <Route path={pagePath.SIGNUP} element={<Signup />} />
+      <Route path={pagePath.LOGIN} element={<Login />} />
+      <Route path={pagePath.HOME} element={<Home />} />
 
-  <Route element={<Protected />}>
-    <Route element={<Layout />}>
-      <Route
-        path={pagePath.MAINHOME}
-        element={<MainHome />}
-      />
-      <Route
-        path={pagePath.USERPROFILE}
-        element={<UserProfilePage />}
-      />
-    </Route>
-  </Route>
+      <Route element={<Protected />}>
+        <Route element={<Layout />}>
+          <Route
+            path={pagePath.MAINHOME}
+            element={<MainHome />}
+          />
+          <Route
+            path={pagePath.USERPROFILE}
+            element={<UserProfilePage />}
+          />
+          <Route
+            path="/comment/:id"
+            element={<CommentForm />}
+          />
+           <Route
+            path={pagePath.NEWPOST}
+            element={<NewPost />}
+          />
+        </Route>
+      </Route>
 
-  <Route path="*" element={<PageNotFound />} />
-</Routes>
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
 
   )
 }

@@ -5,6 +5,8 @@ export const pagePath = {
   LOGIN: '/login',
 //=====authenticated router=====
    MAINHOME:'/home',
-   USERPROFILE:'/profile'
+   USERPROFILE:'/profile',
+   COMMENT:"/comment",
+   NEWPOST:"/newpost"
 
 }
