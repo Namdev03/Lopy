@@ -9,7 +9,7 @@ import cloudinary from "../Utils/Cloudinary.js";
 //=====Register User=====
 const cookieOptions = {
     httpOnly: true,
-    secure: true,      // required with SameSite=None
+    // secure: true,      // required with SameSite=None
     sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000
 };
@@ -80,14 +80,7 @@ export const loginUser = async (req, res) => {
                 status:false
             })
         }
-        //  console.log(process.env.SECRET_KEY);
-        const token = jwt.sign(
-            { userId: isExist._id },
-            process.env.SECRET_KEY,
-            { expiresIn: "1d" }
-        );
-        res.cookie('token', token, cookieOptions)
-        const toSend = {
+         const toSend = {
             _id: isExist._id,
             username: isExist.username,
             email: isExist.email,
@@ -98,6 +91,13 @@ export const loginUser = async (req, res) => {
             post: isExist.posts,
             bookmarks: isExist.bookmarks
         }
+        //  console.log(process.env.SECRET_KEY);
+        const token = jwt.sign(
+            {user:toSend},
+            process.env.SECRET_KEY,
+            { expiresIn: "1d" }
+        );
+        res.cookie('token', token, cookieOptions)
         res.status(200).json({
             message: `Login sucessfully ${isExist.username}`,
             toSend,
@@ -127,7 +127,7 @@ export const logoutuser = async (req, res) => {
 //=====User Profile=====
 export const userProfile = async (req, res) => {
     try {
-        const userId = req.id;
+        const userId = req.user._id;
         const user = await User.findById(userId).select("-password");
         if (!user) {
             return res.status(404).json({
@@ -149,7 +149,7 @@ export const userProfile = async (req, res) => {
 //=====User Profile Edit=====
 export const editProfile = async (req, res) => {
     try {
-        const userid = req.id;
+        const userid = req.user._id;
         const { bio, gender } = req.body;
         const profilepic = req.file;
 
@@ -192,7 +192,7 @@ export const editProfile = async (req, res) => {
 //=====SuggestedUsers=====
 export const getSuggestedUser = async (req, res) => {
     try {
-        const suggestUsers = await User.find({ _id: { $ne: req.id } }).select("-password");
+        const suggestUsers = await User.find({ _id: { $ne: req.user._id } }).select("-password");
         if (!suggestUsers) {
             return res.status(400).json({
                 message: "Currently do not have any users",
@@ -213,7 +213,7 @@ export const getSuggestedUser = async (req, res) => {
 //=====FOllow andunfollow =====
 export const followOrUnfollow = async (req, res) => {
     try {
-        const followkarnewala = req.id;
+        const followkarnewala = req.user._id;
         const jiskoFollowkarung = req.params.id;
         if (followkarnewala === jiskoFollowkarung) {
             return res.status(400).json({
@@ -255,3 +255,18 @@ export const followOrUnfollow = async (req, res) => {
         })
     }
 }
+export const authuser = (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
+
+    return res.status(200).json({
+      message: "User authenticated",
+      user,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

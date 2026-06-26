@@ -3,7 +3,7 @@ import Message from "../Model/Message.model.js";
 
 export const sendMessage = async (req, res) => {
     try {
-        const userId = req.id;
+        const userId = req.user._id;
         const receiverId = req.params.id;
         const {message} = req.body;
         console.log("BODY:", req.body);
@@ -51,7 +51,7 @@ export const sendMessage = async (req, res) => {
 };
 export const getmessage = async (req, res) => {
     try {
-        const userId = req.id;
+        const userId =req.user._id;
         const senderId = req.params.id;
         let conversasation = await Conversation.findOne({
             participants: { $all: [userId, senderId] }

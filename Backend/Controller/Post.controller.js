@@ -9,7 +9,7 @@ export const addNewPost = async (req, res) => {
     try {
         const { caption } = req.body;
         const image = req.file;
-        const authorId = req.id;
+        const authorId = req.user._id;
 
         if (!image) {
             return res.status(400).json({
@@ -97,7 +97,7 @@ export const getAllPosts = async (req, res) => {
 //=====Get user Post=====
 export const getUserPost = async (req, res) => {
     try {
-        const userId = req.id;
+        const userId = req.user._id;
         const post = await Post.find({ author: userId }).sort({ createdAt: -1 }).populate({
             path: 'author',
             select: 'username ,parofilepic'
@@ -123,7 +123,7 @@ export const getUserPost = async (req, res) => {
 //=====Like and unLike post=====
 export const toggleLikePost = async (req, res) => {
     try {
-        const userId = req.id;
+        const userId = req.user._id;
         const postId = req.params.id;
 
         const post = await Post.findById(postId);
@@ -167,7 +167,7 @@ export const toggleLikePost = async (req, res) => {
 export const addComment = async (req, res) => {
     try {
         const postId = req.params.id;
-        const userId = req.id;
+        const userId = req.user._id;
         const { text } = req.body;
         console.log(text);
         
@@ -237,7 +237,7 @@ export const getcommentofPost = async (req, res) => {
 export const deletePost = async (req, res) => {
     try {
         const postId = req.params.id;
-        const authorId = req.id;
+        const authorId = req.user._id;
 
         const post = await Post.findById(postId);
 
@@ -286,7 +286,7 @@ export const deletePost = async (req, res) => {
 export const bookmarkPost = async (req, res) => {
     try {
         const postId = req.params.id;
-        const authorId = req.id;
+        const authorId = req.user._id;
 
         const post = await Post.findById(postId);
 

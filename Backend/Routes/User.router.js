@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser,loginUser,logoutuser,userProfile,editProfile,getSuggestedUser,followOrUnfollow} from "../Controller/User.controller.js";
+import { registerUser,loginUser,logoutuser,userProfile,editProfile,getSuggestedUser,followOrUnfollow, authuser} from "../Controller/User.controller.js";
 import userAuthentiction from "../Middlewares/UserAuthentiction.js";
 import upload from "../Config/Multer.config.js";
 //===== instance of express ======
@@ -9,6 +9,8 @@ const userRouter = express.Router();
 userRouter.post('/register',registerUser)
 //=====Login user====
 userRouter.post('/login',loginUser)
+//=====Me Route=====
+userRouter.get('/me',userAuthentiction,authuser)
 //=====Logout user====
 userRouter.get('/logout',logoutuser)
 //=====User Profile======

@@ -11,8 +11,15 @@ import Sidebar, { Layout } from './Components/SideBar'
 import Protected from './Router/Protected.jsx'
 import CommentForm from './Components/comment.jsx'
 import NewPost from './Components/NewPost.jsx'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { meAsync } from './Redux/userSlice.js'
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(meAsync())
+  },[])
   return (
     <Routes>
       <Route path={pagePath.SIGNUP} element={<Signup />} />

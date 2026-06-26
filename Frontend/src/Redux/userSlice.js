@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi } from "../Services/userApiCollection";
+import { loginApi, meApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
@@ -14,12 +14,23 @@ export const loginUserAsync = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const response = await loginApi(payload);
-
-      // If using axios and API data is in response.data
       return response;
     } catch (error) {
       return rejectWithValue(
         error.response || "Something went wrong"
+      );
+    }
+  }
+);
+export const meAsync = createAsyncThunk(
+  "user/me",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await meApi();
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        error.response || { message: error.message }
       );
     }
   }
@@ -40,13 +51,20 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isLoggedIn = true;
         state.userDetails = action.payload;
-        state.userId = action.payload?._id; // or action.payload.id
+        state.userId = action.payload?.toSend._id; // or action.payload.id
       })
 
       .addCase(loginUserAsync.rejected, (state) => {
         state.isLoading = false;
         state.isLoggedIn = false;
-      });
+      }).addCase(meAsync.pending,(state)=>{
+        state.isLoading = true;
+      }).addCase(meAsync.fulfilled,(state,action)=>{
+        state.isLoading = false;
+        state.isLoggedIn = true;
+        state.userDetails = action.payload;
+         state.userId = action.payload?.user._id;
+      })
   },
 });
 

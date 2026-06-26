@@ -15,7 +15,7 @@ const userAuthentiction = async (req, res, next) => {
                 message: "user not authenticated"
             })
         }
-       req.id = decode.userId;;
+       req.user = decode.user;;
        next();
     }
     catch (error) {
