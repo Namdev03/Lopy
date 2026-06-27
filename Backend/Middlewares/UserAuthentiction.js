@@ -4,9 +4,12 @@ dotenv.config();
 const userAuthentiction = async (req, res, next) => {
     try {
         const token = req.cookies.token;
+        // console.log("token",token);
+        // console.log(token);
+        
         if (!token) {
             return res.status(401).json({
-                message: "user not authenticated",
+                message: " hii user not authenticated",
             })
         }
         const decode = await jwt.verify(token, process.env.SECRET_KEY)

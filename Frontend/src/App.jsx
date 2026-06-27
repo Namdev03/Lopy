@@ -17,9 +17,9 @@ import { meAsync } from './Redux/userSlice.js'
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(meAsync())
-  },[])
+  useEffect(() => {
+  dispatch(meAsync());
+}, [dispatch]);
   return (
     <Routes>
       <Route path={pagePath.SIGNUP} element={<Signup />} />

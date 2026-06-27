@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi, meApi } from "../Services/userApiCollection";
+import { loginApi, meApi, userProfileApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
-  isLoading: false,
+  isLoading: true,
   userDetails: null,
   userId: null,
+  profile:null,
 };
 
 // ===== Login User =====
@@ -27,6 +28,8 @@ export const meAsync = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await meApi();
+      // console.log("response",response);
+      
       return response;
     } catch (error) {
       return rejectWithValue(
@@ -35,7 +38,19 @@ export const meAsync = createAsyncThunk(
     }
   }
 );
-
+export const userprofileAsync = createAsyncThunk(
+  "user/profile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await userProfileApi();
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || error.message
+      );
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -62,11 +77,19 @@ const userSlice = createSlice({
       }).addCase(meAsync.fulfilled,(state,action)=>{
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.userDetails = action.payload;
-         state.userId = action.payload?.user._id;
-      })
+        state.userId = action.payload;
+      }). addCase(userprofileAsync.pending, (state) => {
+      state.loading = false;
+    })
+    .addCase(userprofileAsync.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profile = action.payload;
+    })
+    .addCase(userprofileAsync.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 
-// export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -22,7 +22,7 @@ const navItems = [
 ];
 export default function Sidebar() {
   const [activeItem, setActiveItem] = useState(1);
-  const userDetails = useSelector((state)=>state.user.userDetails);
+  const {profile } = useSelector((state) => state.user);
   return (
     <>
       {/* Desktop Sidebar */}
@@ -86,13 +86,13 @@ export default function Sidebar() {
         <div className="border-t border-zinc-200 p-4">
           <Link to={pagePath.USERPROFILE} className="flex items-center gap-3 w-full rounded-xl p-2 hover:bg-zinc-100">
             <img
-              src={userDetails?.toSend?.profilepic}
+              src={profile?.user?.profilepic}
               alt="profile"
               className="w-10 h-10 rounded-full"
             />
 
             <div className="hidden xl:block text-left">
-              <h4 className="font-semibold text-sm">{userDetails?.toSend?.username}</h4>
+              <h4 className="font-semibold text-sm">{profile?.user.username}</h4>
               <p className="text-xs text-zinc-500">View Profile</p>
             </div>
           </Link>
@@ -136,7 +136,7 @@ export default function Sidebar() {
      <Link  to={pagePath.USERPROFILE} >
           <img
           to={pagePath.USERPROFILE}
-            src={userDetails?.toSend?.profilepic}
+            src={profile?.user?.profilepic}
             alt="profile"
             className={`w-8 h-8 rounded-full cursor-pointer transition ${
               activeItem === 99

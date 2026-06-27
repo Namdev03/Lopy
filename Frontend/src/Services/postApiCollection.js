@@ -8,4 +8,12 @@ export const getAllPostApi = async () => {
         error.response?.data;
     }
 }
-//=====get comment=====
+//=====Get user post=====
+export const userPostApi = async () => {
+    try {
+        const response = await axiosInstance.get(postEndPoint.USERPOST)
+        return response.data;
+    } catch (error) {
+        return error.response.data;
+    }
+}

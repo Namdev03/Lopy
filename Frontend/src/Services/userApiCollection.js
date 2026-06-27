@@ -26,11 +26,20 @@ export const logoutApi= async()=>{
     }
 }
 //=====me route authentication api=====
-export const meApi =async()=>{
+export const meApi = async()=>{
     try {
         const response =await axiosInstance.get(userApiEndPoint.ME)
       return response.data;
     } catch (error) {
         return error.response.data;
+    }
+}
+//===== user profile =====
+export const userProfileApi = async () => {
+    try {
+        const response = await axiosInstance.get(userApiEndPoint.USERPROFILE)
+        return response.data;
+    } catch (error) {
+         return error.response.data
     }
 }

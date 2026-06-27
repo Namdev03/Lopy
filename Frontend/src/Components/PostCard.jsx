@@ -18,7 +18,7 @@ export default function PostCard() {
   const [savedPosts, setSavedPosts] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userId } = useSelector(
+  const { profile } = useSelector(
     (store) => store.user
   );
 
@@ -26,7 +26,7 @@ export default function PostCard() {
     (store) => store.post
   );
   const currentUserId =
-    userId
+    profile.user._id;
 
   useEffect(() => {
     dispatch(allPostAsync());

@@ -9,8 +9,8 @@ import cloudinary from "../Utils/Cloudinary.js";
 //=====Register User=====
 const cookieOptions = {
     httpOnly: true,
-    // secure: true,      // required with SameSite=None
-    sameSite: "None",
+    secure: false,      // required with SameSite=None
+    sameSite: "Lax",
     maxAge: 24 * 60 * 60 * 1000
 };
 export const registerUser = async (req, res) => {
@@ -258,13 +258,15 @@ export const followOrUnfollow = async (req, res) => {
 export const authuser = (req, res) => {
   try {
     const user = req.user;
+    // console.log(user);
+    // console.log(user._id);
+    const userId =user._id;
     if (!user) {
       return res.status(401).json({ message: "User not authenticated" });
     }
-
     return res.status(200).json({
       message: "User authenticated",
-      user,
+      userId
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
