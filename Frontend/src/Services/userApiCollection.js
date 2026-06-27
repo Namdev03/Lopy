@@ -43,3 +43,12 @@ export const userProfileApi = async () => {
          return error.response.data
     }
 }
+//=====Follow And Unfollow =====
+export const followAndUnfollowApi = async (id) => {
+    try {
+        const response = await axiosInstance.post(`${userApiEndPoint.FOLLOWANDUNFOLLOW}/${id}`)
+        return response.data;
+    } catch (error) {
+        return error.response.data;
+    }
+}

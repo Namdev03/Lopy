@@ -216,7 +216,7 @@ export const followOrUnfollow = async (req, res) => {
         const followkarnewala = req.user._id;
         const jiskoFollowkarung = req.params.id;
         if (followkarnewala === jiskoFollowkarung) {
-            return res.status(400).json({
+           return res.status(400).json({
                 message: "you con not follow your self",
                 status:false
             })
@@ -260,13 +260,12 @@ export const authuser = (req, res) => {
     const user = req.user;
     // console.log(user);
     // console.log(user._id);
-    const userId =user._id;
     if (!user) {
       return res.status(401).json({ message: "User not authenticated" });
     }
     return res.status(200).json({
       message: "User authenticated",
-      userId
+      user
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

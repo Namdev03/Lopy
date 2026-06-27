@@ -4,6 +4,7 @@ export const userApiEndPoint = {
     LOGOUT:"/user/logout",
     //=====Authenticated End point =====
     ME:"/user/me",
+    FOLLOWANDUNFOLLOW:"/user/userprofile",
     USERPROFILE:"/user/profile",
     SUGGESTUSER:"/user/suggestedUser",
     LIKEUNLIKE : "/post/like",

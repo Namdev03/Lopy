@@ -15,7 +15,7 @@ const [activeTab, setActiveTab] = useState("posts");
 const userPost = async () => {
   try {
     const response =await userPostApi()
-    console.log("user post response",response); 
+    // console.log("user post response",response); 
     setPostData(response.post)
   } catch (error) {
   }

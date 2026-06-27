@@ -3,9 +3,9 @@ import { getAllPostApi } from "../Services/postApiCollection";
 
 const initialState = {
     post: [],
-    postId: null,
     loading: false,
     error: null,
+    postDetails:null
 };
 
 export const allPostAsync = createAsyncThunk(
@@ -35,11 +35,7 @@ const postSlice = createSlice({
             })
             .addCase(allPostAsync.fulfilled, (state, action) => {
                 state.loading = false;
-                state.post = action.payload.posts;
-                state.postId =
-                    action.payload.posts.length > 0
-                        ? action.payload._id
-                        : null;
+                state.post = action.payload;
             })
             .addCase(allPostAsync.rejected, (state, action) => {
                 state.loading = false;

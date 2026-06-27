@@ -77,7 +77,8 @@ const userSlice = createSlice({
       }).addCase(meAsync.fulfilled,(state,action)=>{
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.userId = action.payload;
+        state.userId = action.payload.user._id;
+        state.profile = action.payload.user;
       }). addCase(userprofileAsync.pending, (state) => {
       state.loading = false;
     })
