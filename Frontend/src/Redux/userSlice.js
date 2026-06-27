@@ -4,11 +4,9 @@ import { loginApi, meApi, userProfileApi } from "../Services/userApiCollection";
 const initialState = {
   isLoggedIn: false,
   isLoading: true,
-  userDetails: null,
   userId: null,
   profile:null,
 };
-
 // ===== Login User =====
 export const loginUserAsync = createAsyncThunk(
   "user/login",

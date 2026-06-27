@@ -52,3 +52,12 @@ export const followAndUnfollowApi = async (id) => {
         return error.response.data;
     }
 }
+//=====Like and Unlike=====
+export const likeAndUnLikeApi = async (id) => {
+    try {
+        const response =await axiosInstance.post(`${userApiEndPoint.LIKEUNLIKE}/${id}`)
+        return response.data;
+    } catch (error) {
+        return error.response.data;
+    }
+}

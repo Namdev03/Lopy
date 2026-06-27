@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAllPostApi } from "../Services/postApiCollection";
 
 const initialState = {
-    post: [],
-    loading: false,
+    allPost: null,
+    isLoading: false,
     error: null,
-    postDetails:null
 };
 
 export const allPostAsync = createAsyncThunk(
@@ -13,7 +12,10 @@ export const allPostAsync = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await getAllPostApi();
+            // console.log(response);
+            
             return response;
+
         } catch (error) {
             return rejectWithValue(
                 error.response || "Something went wrong"
@@ -21,7 +23,6 @@ export const allPostAsync = createAsyncThunk(
         }
     }
 );
-
 const postSlice = createSlice({
     name: "post",
     initialState,
@@ -30,15 +31,15 @@ const postSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(allPostAsync.pending, (state) => {
-                state.loading = true;
+                state.isLoading = true;
                 state.error = null;
             })
             .addCase(allPostAsync.fulfilled, (state, action) => {
-                state.loading = false;
-                state.post = action.payload;
+                state.isLoading = false;
+                state.allPost = action.payload;
             })
             .addCase(allPostAsync.rejected, (state, action) => {
-                state.loading = false;
+                state.isLoading = false;
                 state.error = action.payload;
             });
     },
