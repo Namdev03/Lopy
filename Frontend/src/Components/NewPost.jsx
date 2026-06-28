@@ -6,10 +6,7 @@ import { useNavigate } from "react-router";
 import { pagePath } from "../Router/pagePath";
 
 export default function NewPost() {
-  const { userDetails } = useSelector((store) => store.user);
-
-  const userId = userDetails?.toSend?._id;
-
+  const { userId } = useSelector((store) => store.user);
   const [image, setImage] = useState(null);
   const [caption, setCaption] = useState("");
   const [preview, setPreview] = useState(null);

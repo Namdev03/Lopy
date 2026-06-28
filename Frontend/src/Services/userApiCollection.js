@@ -1,23 +1,23 @@
 import { userApiEndPoint } from "../Router/UserEndPoints.js"
 import { axiosInstance } from "./axiosInstance.js"
 
-export const loginApi= async(payload)=>{
+export const loginApi = async (payload) => {
     try {
-        const response = await axiosInstance.post(userApiEndPoint.LOGIN,payload)
+        const response = await axiosInstance.post(userApiEndPoint.LOGIN, payload)
         return response.data;
     } catch (error) {
         return error.response.data;
     }
 }
-export const registerApi= async(payload)=>{
+export const registerApi = async (payload) => {
     try {
-        const response = await axiosInstance.post(userApiEndPoint.SIGNUP,payload)
+        const response = await axiosInstance.post(userApiEndPoint.SIGNUP, payload)
         return response.data;
     } catch (error) {
-        return error.response.data ;
+        return error.response.data;
     }
 }
-export const logoutApi= async()=>{
+export const logoutApi = async () => {
     try {
         const response = await axiosInstance.get(userApiEndPoint.LOGOUT)
         return response.data;
@@ -26,10 +26,10 @@ export const logoutApi= async()=>{
     }
 }
 //=====me route authentication api=====
-export const meApi = async()=>{
+export const meApi = async () => {
     try {
-        const response =await axiosInstance.get(userApiEndPoint.ME)
-      return response.data;
+        const response = await axiosInstance.get(userApiEndPoint.ME)
+        return response.data;
     } catch (error) {
         return error.response.data;
     }
@@ -40,7 +40,7 @@ export const userProfileApi = async () => {
         const response = await axiosInstance.get(userApiEndPoint.USERPROFILE)
         return response.data;
     } catch (error) {
-         return error.response.data
+        return error.response.data
     }
 }
 //=====Follow And Unfollow =====
@@ -55,9 +55,19 @@ export const followAndUnfollowApi = async (id) => {
 //=====Like and Unlike=====
 export const likeAndUnLikeApi = async (id) => {
     try {
-        const response =await axiosInstance.post(`${userApiEndPoint.LIKEUNLIKE}/${id}`)
+        const response = await axiosInstance.post(`${userApiEndPoint.LIKEUNLIKE}/${id}`)
         return response.data;
     } catch (error) {
         return error.response.data;
     }
 }
+//=====Suggsted users =====
+export const suggesteUserApi = async () => {
+    try {
+        const response = await axiosInstance.get("/user/suggestedUser");
+        // console.log("suggested user",response.data);
+        return response.data;
+    } catch (error) {
+        return error.response?.data
+    }
+};

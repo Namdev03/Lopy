@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi, meApi, userProfileApi } from "../Services/userApiCollection";
+import { loginApi, meApi, suggesteUserApi, userProfileApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
   isLoading: true,
   userId: null,
-  profile:null,
+  profile: null,
+  userDetails: null,
+  suggestedUsers: null,
+  suggestionLoading:false,
 };
 // ===== Login User =====
 export const loginUserAsync = createAsyncThunk(
@@ -27,7 +30,7 @@ export const meAsync = createAsyncThunk(
     try {
       const response = await meApi();
       // console.log("response",response);
-      
+
       return response;
     } catch (error) {
       return rejectWithValue(
@@ -44,50 +47,65 @@ export const userprofileAsync = createAsyncThunk(
       return response;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data || error.message
+        error.response || error.message
       );
     }
   }
 );
+export const suggestedUserAsync = createAsyncThunk("/user/suggest", async (_, { rejectWithValue }) => {
+  try {
+    const response = await suggesteUserApi();
+    // console.log(response);
+    return response;
+  } catch (error) {
+    return rejectWithValue(error.response);
+  }
+})
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: { },
-
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUserAsync.pending, (state) => {
         state.isLoading = true;
       })
-
       .addCase(loginUserAsync.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
         state.userDetails = action.payload;
         state.userId = action.payload?.toSend._id; // or action.payload.id
       })
-
       .addCase(loginUserAsync.rejected, (state) => {
         state.isLoading = false;
         state.isLoggedIn = false;
-      }).addCase(meAsync.pending,(state)=>{
+      }).addCase(meAsync.pending, (state) => {
         state.isLoading = true;
-      }).addCase(meAsync.fulfilled,(state,action)=>{
+      }).addCase(meAsync.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
         state.userId = action.payload.user._id;
+      }).addCase(userprofileAsync.pending, (state) => {
+        // state.isLoading = false;
+      })
+      .addCase(userprofileAsync.fulfilled, (state, action) => {
+        // state.isLoading = false;
         state.profile = action.payload.user;
-      }). addCase(userprofileAsync.pending, (state) => {
-      state.loading = false;
-    })
-    .addCase(userprofileAsync.fulfilled, (state, action) => {
-      state.loading = false;
-      state.profile = action.payload;
-    })
-    .addCase(userprofileAsync.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
+      })
+      .addCase(userprofileAsync.rejected, (state, action) => {
+        // state.isLoading = false;
+        state.error = action.payload;
+      }).addCase(suggestedUserAsync.pending, (state) => {
+        state.suggestionLoading = true;
+      })
+      .addCase(suggestedUserAsync.fulfilled, (state, action) => {
+        state.suggestionLoading = false;
+        state.suggestedUsers = action.payload;
+      })
+      .addCase(suggestedUserAsync.rejected, (state, action) => {
+        state.suggestionLoading = true;
+        state.error = action.payload;
+      })
   },
 });
 

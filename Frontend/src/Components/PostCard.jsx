@@ -5,15 +5,17 @@ import Loading from "./Loading";
 import {
   followAndUnfollowApi,
   likeAndUnLikeApi,
+  userProfileApi,
 } from "../Services/userApiCollection";
 import { allPostAsync } from "../Redux/postSlice";
+import { Link } from "react-router"
+import { pagePath } from "../Router/pagePath";
+import { userprofileAsync } from "../Redux/userSlice";
 
 export default function PostCard() {
   const dispatch = useDispatch();
-
   const { allPost, isLoading } = useSelector((store) => store.post);
   const { profile } = useSelector((store) => store.user);
-
   const posts = allPost?.posts || [];
   const userId = profile?._id;
   const likeAndUnlike = async (id) => {
@@ -27,13 +29,13 @@ export default function PostCard() {
 
   const followAndUnfollow = async (id) => {
     try {
-      await followAndUnfollowApi(id);
+       await followAndUnfollowApi(id);
       dispatch(allPostAsync());
+      dispatch(userprofileAsync())
     } catch (error) {
       console.error(error?.response?.message || "Follow action failed");
     }
   };
-
   return (
     <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4">
       <div className="flex flex-col items-center gap-6">
@@ -43,7 +45,6 @@ export default function PostCard() {
           const isFollow = profile?.following
             ?.map(String)
             .includes(String(post.author?._id));
-
           return (
             <div
               key={post._id}
@@ -61,17 +62,17 @@ export default function PostCard() {
                     {post.author?.username}
                   </h3>
                 </div>
-                { 
-                profile._id !== post.author._id &&
-                <button 
-                  onClick={() =>
-                    followAndUnfollow(post.author?._id)
-                  }
-                  type="button"
-                  className="px-3 py-1 text-xs sm:text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600"
-                >
-                  {isFollow ? "Unfollow" : "Follow"}
-                </button>}
+                {
+                  profile._id !== post.author._id &&
+                  <button
+                    onClick={() =>
+                      followAndUnfollow(post.author?._id)
+                    }
+                    type="button"
+                    className="px-3 py-1 text-xs sm:text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                  >
+                    {isFollow ? "UnFollow" : "Follow"}
+                  </button>}
               </div>
 
               {/* Image */}
@@ -89,18 +90,16 @@ export default function PostCard() {
                     onClick={() => likeAndUnlike(post._id)}
                   >
                     <Heart
-                      className={`w-6 h-6 transition ${
-                        isLiked
+                      className={`w-6 h-6 transition ${isLiked
                           ? "text-red-500 fill-red-500"
                           : "hover:text-red-500"
-                      }`}
+                        }`}
                     />
                   </button>
 
-                  <button type="button">
+                  <Link to={`${pagePath.COMMENT}/${post._id}`}>
                     <MessageCircle className="w-6 h-6 hover:text-blue-500 transition" />
-                  </button>
-
+                  </Link>
                   <button type="button">
                     <Send className="w-6 h-6 hover:text-blue-500 transition" />
                   </button>
@@ -110,7 +109,6 @@ export default function PostCard() {
                   <Bookmark className="w-6 h-6 hover:text-black transition" />
                 </button>
               </div>
-
               {/* Likes */}
               <div className="px-4 text-sm font-semibold">
                 {post.likes?.length || 0} likes

@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../Services/axiosInstance";
-import { userApiEndPoint } from "../Router/UserEndPoints";
-
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import Loading from "./Loading";
 export default function UserSuggestions() {
-  const [userData, setUserData] = useState([]);
-
-  const suggesteUserApi = async () => {
-    try {
-      const response = await axiosInstance.get(
-        userApiEndPoint.SUGGESTUSER
-      );
-
-      // console.log("Response Data:", response.data.suggestUsers);
-
-      setUserData(response.data.suggestUsers);
-    } catch (error) {
-      console.error(
-        error.response?.data?.message || error.message
-      );
-    }
-  };
-
-  useEffect(() => {
-    suggesteUserApi();
-  }, []);
-
+const {suggestedUsers,suggestionLoading} = useSelector((store)=>store.user)
+const users = suggestedUsers?.suggestUsers ||[];
+ console.log(suggestionLoading);
+if (suggestionLoading) {
+  return <p>Loading....</p>
+}
   return (
     <div className="w-full max-w-sm bg-white rounded-2xl p-4">
       {/* Header */}
@@ -39,7 +22,7 @@ export default function UserSuggestions() {
 
       {/* Users */}
       <div className="space-y-4">
-        {userData.map((user) => (
+        {users.map((user) => (
           <div
             key={user._id}
             className="flex items-center justify-between"

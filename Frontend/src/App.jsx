@@ -13,14 +13,18 @@ import CommentForm from './Components/comment.jsx'
 import NewPost from './Components/NewPost.jsx'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { meAsync } from './Redux/userSlice.js'
+import { meAsync, suggestedUserAsync, userprofileAsync } from './Redux/userSlice.js'
 import { allPostAsync } from './Redux/postSlice.js'
+import { axiosInstance } from './Services/axiosInstance.js'
+import { userApiEndPoint } from './Router/UserEndPoints.js'
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
   dispatch(meAsync());
   dispatch(allPostAsync());
+  dispatch(userprofileAsync())
+  dispatch(suggestedUserAsync())
 }, [dispatch]);
   return (
     <Routes>

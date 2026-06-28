@@ -13,10 +13,9 @@ import ProfileTabs from "../Components/ProfileTab";
 import { userprofileAsync } from "../Redux/userSlice";
 
 const UserProfilePage = () => {
-  const [userData, setUserData] = useState(null);
+
 const dispatch = useDispatch()
   const {profile } = useSelector((state) => state.user);
-  // console.log("profile",profile);
 
   useEffect(() => {
     dispatch(userprofileAsync())
@@ -32,7 +31,7 @@ const dispatch = useDispatch()
 
           <div className="flex-shrink-0">
             <img
-              src={profile?.user?.profilepic}
+              src={profile?.profilepic}
               alt="profile"
               className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-200"
             />
@@ -42,7 +41,7 @@ const dispatch = useDispatch()
 
             <div className="flex flex-col lg:flex-row items-center gap-4">
               <h1 className="text-xl sm:text-2xl font-semibold">
-                {profile?.user?.username}
+                {profile?.username}
               </h1>
 
               <div className="flex gap-2">
@@ -60,28 +59,28 @@ const dispatch = useDispatch()
             <div className="flex gap-8 mt-6">
               <div>
                 <span className="font-bold">
-                  {profile?.user?.posts?.length || 0}
+                  {profile?.posts?.length || 0}
                 </span>{" "}
                 posts
               </div>
 
               <div>
                 <span className="font-bold">
-                  {profile?.user?.followers?.length || 0}
+                  {profile?.followers?.length || 0}
                 </span>{" "}
                 followers
               </div>
 
               <div>
                 <span className="font-bold">
-                  {profile?.user?.following?.length || 0}
+                  {profile?.following?.length || 0}
                 </span>{" "}
                 following
               </div>
             </div>
 
             <div className="mt-6">
-              <p>{profile?.user?.bio}</p>
+              <p>{profile?.bio}</p>
             </div>
 
           </div>
