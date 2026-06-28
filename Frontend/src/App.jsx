@@ -11,21 +11,24 @@ import Sidebar, { Layout } from './Components/SideBar'
 import Protected from './Router/Protected.jsx'
 import CommentForm from './Components/comment.jsx'
 import NewPost from './Components/NewPost.jsx'
+import Suggestion from './Components/Suggestion.jsx'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { meAsync, suggestedUserAsync, userprofileAsync } from './Redux/userSlice.js'
-import { allPostAsync } from './Redux/postSlice.js'
+import { allPostAsync, userOnePostAsync } from './Redux/postSlice.js'
 import { axiosInstance } from './Services/axiosInstance.js'
 import { userApiEndPoint } from './Router/UserEndPoints.js'
+import Search from './Components/Search.jsx'
+import UserOnePost from './Components/UserOnePost.jsx'
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-  dispatch(meAsync());
-  dispatch(allPostAsync());
-  dispatch(userprofileAsync())
-  dispatch(suggestedUserAsync())
-}, [dispatch]);
+    dispatch(meAsync());
+    dispatch(allPostAsync());
+    dispatch(userprofileAsync())
+    dispatch(suggestedUserAsync())
+  }, [dispatch]);
   return (
     <Routes>
       <Route path={pagePath.SIGNUP} element={<Signup />} />
@@ -46,9 +49,17 @@ function App() {
             path="/comment/:id"
             element={<CommentForm />}
           />
-           <Route
+          <Route
             path={pagePath.NEWPOST}
             element={<NewPost />}
+          />
+          <Route
+            path={pagePath.SEARCH}
+            element={<Search />}
+          />
+          <Route
+            path={`${pagePath.USERONEPOST}/:id`}
+            element={<UserOnePost/>}
           />
         </Route>
       </Route>

@@ -14,7 +14,7 @@ import { pagePath } from "../Router/pagePath";
 
 const navItems = [
   { id: 1, name: "Home", icon: Home ,path:'/home'},
-  { id: 2, name: "Search", icon: Search },
+  { id: 2, name: "Search", icon: Search,path:'/search' },
   { id: 3, name: "Reels", icon: Clapperboard },
   { id: 4, name: "Messages", icon: Send, badge: 7 },
   { id: 5, name: "Notifications", icon: Heart, badge: 12 },

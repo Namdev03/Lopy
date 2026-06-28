@@ -5,7 +5,6 @@ import Loading from "./Loading";
 import {
   followAndUnfollowApi,
   likeAndUnLikeApi,
-  userProfileApi,
 } from "../Services/userApiCollection";
 import { allPostAsync } from "../Redux/postSlice";
 import { Link } from "react-router"
@@ -71,7 +70,7 @@ export default function PostCard() {
                     type="button"
                     className="px-3 py-1 text-xs sm:text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600"
                   >
-                    {isFollow ? "UnFollow" : "Follow"}
+                    {isFollow ? "Following" : "Follow"}
                   </button>}
               </div>
 

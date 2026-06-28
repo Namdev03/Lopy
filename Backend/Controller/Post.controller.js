@@ -14,7 +14,7 @@ export const addNewPost = async (req, res) => {
         if (!image) {
             return res.status(400).json({
                 message: "Image required",
-                status:false
+                status: false
             });
         }
 
@@ -51,8 +51,8 @@ export const addNewPost = async (req, res) => {
 
         return res.status(201).json({
             message: "New Post added",
-             post,
-             status:true
+            post,
+            status: true
         });
     } catch (error) {
         return res.status(500).json({
@@ -78,8 +78,8 @@ export const getAllPosts = async (req, res) => {
                 }
             })
             .lean();
-            // console.log(posts);
-            
+        // console.log(posts);
+
         return res.status(200).json({
             success: true,
             message: "Posts fetched successfully",
@@ -111,14 +111,46 @@ export const getUserPost = async (req, res) => {
         });
         return res.status(200).json({
             message: "post fetch successfully",
-         post,
-         status:true
+            post,
+            status: true
         })
     } catch (error) {
         res.status(500).json({
             message: error.message
         })
     }
+};
+//=====get perticulerPost====
+export const userOnePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId)
+      .populate("author", "username profilepic")
+      .populate({
+        path: "comments",
+        options: { sort: { createdAt: -1 } },
+        populate: {
+          path: "author",
+          select: "username profilepic",
+        },
+      });
+
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Post fetched successfully",
+      post,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
 };
 //=====Like and unLike post=====
 export const toggleLikePost = async (req, res) => {
@@ -131,7 +163,7 @@ export const toggleLikePost = async (req, res) => {
         if (!post) {
             return res.status(404).json({
                 message: "Post not found",
-                status:false
+                status: false
             });
         }
 
@@ -144,7 +176,7 @@ export const toggleLikePost = async (req, res) => {
 
             return res.status(200).json({
                 message: "Post unliked",
-                status:true
+                status: true
             });
         }
 
@@ -154,7 +186,7 @@ export const toggleLikePost = async (req, res) => {
 
         return res.status(200).json({
             message: "Post liked",
-            status:true
+            status: true
         });
 
     } catch (error) {
@@ -170,12 +202,12 @@ export const addComment = async (req, res) => {
         const userId = req.user._id;
         const { text } = req.body;
         console.log(text);
-        
+
 
         if (!text?.trim()) {
             return res.status(400).json({
                 message: "Text is required",
-                status:false
+                status: false
             });
         }
 
@@ -203,8 +235,8 @@ export const addComment = async (req, res) => {
 
         return res.status(201).json({
             message: "Comment added successfully",
-               comment,
-               status:true
+            comment,
+            status: true
         });
 
     } catch (error) {
@@ -217,16 +249,13 @@ export const addComment = async (req, res) => {
 export const getcommentofPost = async (req, res) => {
     try {
         const postId = req.params.id;
-
         const comments = await Comment.find({ post: postId })
             .populate("author", "username profilePic");
-
         return res.status(200).json({
             message: "Comments fetched successfully",
             comments,
-            status:true
+            status: true
         });
-
     } catch (error) {
         return res.status(500).json({
             message: error.message
@@ -244,14 +273,14 @@ export const deletePost = async (req, res) => {
         if (!post) {
             return res.status(404).json({
                 message: "Post not found",
-                status:false
+                status: false
             });
         }
 
         if (post.author.toString() !== authorId) {
             return res.status(403).json({
                 message: "Unauthorized",
-                status:false
+                status: false
             });
         }
 
@@ -273,7 +302,7 @@ export const deletePost = async (req, res) => {
 
         return res.status(200).json({
             message: "Post deleted successfully",
-            status:true
+            status: true
         });
 
     } catch (error) {
@@ -293,7 +322,7 @@ export const bookmarkPost = async (req, res) => {
         if (!post) {
             return res.status(404).json({
                 message: "Post not found",
-                status:false
+                status: false
             });
         }
 
@@ -302,7 +331,7 @@ export const bookmarkPost = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
-                status:false
+                status: false
             });
         }
 
@@ -317,7 +346,7 @@ export const bookmarkPost = async (req, res) => {
 
             return res.status(200).json({
                 message: "Post removed from bookmarks",
-                status:true
+                status: true
             });
         }
 
@@ -327,7 +356,7 @@ export const bookmarkPost = async (req, res) => {
 
         return res.status(200).json({
             message: "Post bookmarked",
-            status:true
+            status: true
         });
 
     } catch (error) {

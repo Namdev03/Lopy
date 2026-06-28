@@ -17,3 +17,11 @@ export const userPostApi = async () => {
         return error.response.data;
     }
 }
+export const userOnePostApi = async (id) => {
+    try {
+        const response = await axiosInstance.get(`${postEndPoint.USERONEPOST}/${id}`)
+        return response.data;
+    } catch (error) {
+        error.response.data;
+    }
+}

@@ -8,5 +8,7 @@ export const postEndPoint = {
     //=====New Comment======
     NEWCOMMENT:"/post/comment",
     //=====new post=====
-    NEWPOST:"/post/new/post"
+    NEWPOST:"/post/new/post",
+    //===== user One Post=====
+    USERONEPOST :"/post/userOnePost",
 }

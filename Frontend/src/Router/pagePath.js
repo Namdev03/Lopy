@@ -7,6 +7,8 @@ export const pagePath = {
    MAINHOME:'/home',
    USERPROFILE:'/profile',
    COMMENT:"/comment",
-   NEWPOST:"/newpost"
+   NEWPOST:"/newpost",
+   SEARCH:"/search",
+   USERONEPOST:"/user/post"
 
 }
