@@ -80,4 +80,4 @@ const data = activeTab === "posts" ? posts : saved;
   );
 };
 
-export default ProfileTabs;
+export default UsersProfileTabs;

@@ -10,6 +10,6 @@ export const pagePath = {
    NEWPOST:"/newpost",
    SEARCH:"/search",
    USERONEPOST:"/user/post",
-   MESSAGE:"/user/messages"
-
+   MESSAGE:"/user/messages",
+   USERSPROFILE:"/user/Profile"
 }

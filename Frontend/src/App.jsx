@@ -22,6 +22,7 @@ import Search from './Components/Search.jsx'
 import UserOnePost from './Components/UserOnePost.jsx'
 import Message from './Pages/message.jsx'
 import Messages from './Components/Messages.jsx'
+import UsersProfile from './Components/UsersProfile.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -70,6 +71,10 @@ function App() {
             <Route
             path={`${pagePath.MESSAGE}/:id`}
             element={<Messages/>}
+          />
+           <Route
+            path={`${pagePath.USERSPROFILE}/:id`}
+            element={<UsersProfile/>}
           />
         </Route>
       </Route>

@@ -5,6 +5,8 @@ import {
   followAndUnfollowApi,
 } from "../Services/userApiCollection";
 import { suggestedUserAsync, userprofileAsync } from "../Redux/userSlice";
+import { pagePath } from "../Router/pagePath";
+import { Link } from "react-router";
 
 export default function Suggestion() {
   const dispatch = useDispatch()
@@ -28,14 +30,13 @@ return (
         const isFollow = profile?.following
           ?.map(String)
           .includes(String(user._id));
-
         return (
           <div
             key={user._id}
             className="flex items-center justify-between gap-3"
           >
             {/* Left */}
-            <div className="flex items-center gap-3 min-w-0 flex-1">
+            <Link to={`${pagePath.USERSPROFILE}/${user._id}`} className="flex items-center gap-3 min-w-0 flex-1">
               <img
                 src={user.profilepic}
                 alt={user.username}
@@ -52,7 +53,7 @@ return (
                   {user.fullName}
                 </p> */}
               </div>
-            </div>
+            </Link>
 
             {/* Right */}
             <button

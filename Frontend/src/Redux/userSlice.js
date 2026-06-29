@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi, meApi, suggesteUserApi, userProfileApi } from "../Services/userApiCollection";
+import { loginApi, meApi, suggesteUserApi, usersProfileApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
@@ -9,6 +9,8 @@ const initialState = {
   userDetails: null,
   suggestedUsers: null,
   suggestionLoading:false,
+  usersProfileLoading :true,
+  usersProfile :null,
 };
 // ===== Login User =====
 export const loginUserAsync = createAsyncThunk(
@@ -60,7 +62,16 @@ export const suggestedUserAsync = createAsyncThunk("/user/suggest", async (_, { 
   } catch (error) {
     return rejectWithValue(error.response);
   }
-})
+});
+export const usersProfileAsync = createAsyncThunk("/users/profile",async (id,{rejectWithValue}) => {
+  try {
+    const response = await usersProfileApi(id);
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}) 
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -105,6 +116,13 @@ const userSlice = createSlice({
       .addCase(suggestedUserAsync.rejected, (state, action) => {
         state.suggestionLoading = true;
         state.error = action.payload;
+      }).addCase(usersProfileAsync.pending,(state) => {
+        state.usersProfileLoading = true;
+      }).addCase(usersProfileAsync.fulfilled,(state,action) => {
+        state.usersProfileLoading = false;
+        state.usersProfile = action.payload.user;
+      }).addCase(usersProfileAsync.rejected,(state) => {
+        state.usersProfileLoading = true;
       })
   },
 });
