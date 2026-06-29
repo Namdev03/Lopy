@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie-parser";
 import getDataUri from "../Utils/DataURI.js";
 import cloudinary from "../Utils/Cloudinary.js";
+import Post from "../Model/Post.model.js"
 //=====Register User=====
 const cookieOptions = {
     httpOnly: true,
@@ -274,9 +275,12 @@ export const authuser = async(req, res) => {
 //=====Users profile =====
 export const usersProfile = async (req, res) => {
   try {
-    const userId = req.params.id; // ✅ must be "id"
+    const userId = req.params.id;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate({
+      path: "posts", // ✅ MUST be string
+      options: { sort: { createdAt: -1 } },
+    });
 
     if (!user) {
       return res.status(404).json({

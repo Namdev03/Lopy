@@ -13,8 +13,6 @@ export default function PostCard() {
   const dispatch = useDispatch();
   const { userId } = useSelector((store) => store.user);
   const { userOnePost } = useSelector((store) => store.post);
-console.log(userId);
-
   useEffect(() => {
     if (id) {
       dispatch(userOnePostAsync(id));
@@ -41,8 +39,6 @@ console.log(userId);
   const isLiked = userOnePost.likes?.some(
     (likeId) => String(likeId) === String(userId)
   );
-console.log(isLiked);
-
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-xl shadow border overflow-hidden">
       {/* Header */}

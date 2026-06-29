@@ -62,7 +62,7 @@ export default function PostCard() {
                   </h3>
                 </div>
                 {
-                  profile._id !== post.author._id &&
+                  profile?._id !== post?.author?._id &&
                   <button
                     onClick={() =>
                       followAndUnfollow(post.author?._id)

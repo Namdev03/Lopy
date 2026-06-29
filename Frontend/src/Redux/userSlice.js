@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi, meApi, suggesteUserApi, usersProfileApi } from "../Services/userApiCollection";
+import { loginApi, meApi, suggesteUserApi, userProfileApi, usersProfileApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
@@ -66,8 +66,7 @@ export const suggestedUserAsync = createAsyncThunk("/user/suggest", async (_, { 
 export const usersProfileAsync = createAsyncThunk("/users/profile",async (id,{rejectWithValue}) => {
   try {
     const response = await usersProfileApi(id);
-    console.log(response);
-    return response;
+    return response;    
   } catch (error) {
     return error.response;
   }

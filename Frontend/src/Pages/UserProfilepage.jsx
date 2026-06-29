@@ -16,7 +16,6 @@ const UserProfilePage = () => {
 
 const dispatch = useDispatch()
   const {profile } = useSelector((state) => state.user);
-
   useEffect(() => {
     dispatch(userprofileAsync())
   },[dispatch]);

@@ -74,7 +74,7 @@ export const suggesteUserApi = async () => {
 //=====Users Profile by params=====
 export const usersProfileApi = async (id) => {
     try {
-        const response = await axiosInstance.get(`${userApiEndPoint.USERSPROFILE}/${id}`)
+        const response = await axiosInstance.get(`${userApiEndPoint.USERSPROFILE}/${id}`)   
         return response.data;
     } catch (error) {
         return error.response.data;
