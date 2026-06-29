@@ -255,7 +255,7 @@ export const followOrUnfollow = async (req, res) => {
         })
     }
 }
-export const authuser = (req, res) => {
+export const authuser = async(req, res) => {
   try {
     const user = req.user;
     // console.log(user);
@@ -269,5 +269,30 @@ export const authuser = (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+//=====Users profile =====
+export const usersProfile = async (req, res) => {
+  try {
+    const userId = req.params.id; // ✅ must be "id"
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User Not Found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "User Found successfully",
+      user,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server Error",
+      error: error.message,
+    });
   }
 };

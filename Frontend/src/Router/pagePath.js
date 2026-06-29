@@ -9,6 +9,7 @@ export const pagePath = {
    COMMENT:"/comment",
    NEWPOST:"/newpost",
    SEARCH:"/search",
-   USERONEPOST:"/user/post"
+   USERONEPOST:"/user/post",
+   MESSAGE:"/user/messages"
 
 }

@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { pagePath } from "../Router/pagePath";
-import { followAndUnfollowApi } from "../Services/userApiCollection";
+import { followAndUnfollowApi, likeAndUnLikeApi } from "../Services/userApiCollection";
 import { allPostAsync, userOnePostAsync } from "../Redux/postSlice";
 
 export default function PostCard() {
@@ -13,6 +13,7 @@ export default function PostCard() {
   const dispatch = useDispatch();
   const { userId } = useSelector((store) => store.user);
   const { userOnePost } = useSelector((store) => store.post);
+console.log(userId);
 
   useEffect(() => {
     if (id) {
@@ -21,9 +22,9 @@ export default function PostCard() {
   }, [dispatch, id]);
   const likeAndUnlike = async (postId) => {
     try {
-      await followAndUnfollowApi(postId);
-      // Refresh current post
+        const respose =await likeAndUnLikeApi(postId)
       dispatch(userOnePostAsync(postId));
+      dispatch(allPostAsync())
     } catch (error) {
       alert(error?.response?.data?.message || error.message);
     }

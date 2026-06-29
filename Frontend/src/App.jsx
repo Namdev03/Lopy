@@ -20,6 +20,8 @@ import { axiosInstance } from './Services/axiosInstance.js'
 import { userApiEndPoint } from './Router/UserEndPoints.js'
 import Search from './Components/Search.jsx'
 import UserOnePost from './Components/UserOnePost.jsx'
+import Message from './Pages/message.jsx'
+import Messages from './Components/Messages.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +62,14 @@ function App() {
           <Route
             path={`${pagePath.USERONEPOST}/:id`}
             element={<UserOnePost/>}
+          />
+            <Route
+            path={pagePath.MESSAGE}
+            element={<Message/>}
+          />
+            <Route
+            path={`${pagePath.MESSAGE}/:id`}
+            element={<Messages/>}
           />
         </Route>
       </Route>
