@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser,loginUser,logoutuser,userProfile,editProfile,getSuggestedUser,followOrUnfollow, authuser, usersProfile} from "../Controller/User.controller.js";
+import { registerUser,loginUser,logoutuser,userProfile,editProfile,getSuggestedUser,followOrUnfollow, authuser, usersProfile, followingAndFollowers, UsersFollowingAndFollowers} from "../Controller/User.controller.js";
 import userAuthentiction from "../Middlewares/UserAuthentiction.js";
 import upload from "../Config/Multer.config.js";
 //===== instance of express ======
@@ -23,4 +23,8 @@ userRouter.get("/suggestedUser",userAuthentiction, getSuggestedUser);
 userRouter.post("/userprofile/:id",userAuthentiction,followOrUnfollow);
 //===== Users Profile=====
 userRouter.get("/users/profile/:id",userAuthentiction,usersProfile)
+//======Get followers and Following =====
+userRouter.get("/contact",userAuthentiction,followingAndFollowers)
+//===== Get users followers and Following =====
+userRouter.get("/users/contact/:id",userAuthentiction,UsersFollowingAndFollowers)
 export default userRouter;

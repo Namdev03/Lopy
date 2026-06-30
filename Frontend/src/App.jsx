@@ -24,6 +24,8 @@ import Message from './Pages/message.jsx'
 import Messages from './Components/Messages.jsx'
 import UsersProfile from './Components/UsersProfile.jsx'
 import EditProfile from './Components/EditProfile.jsx'
+import FollowersFollowing from './Components/FollowersFollowing.jsx'
+import UsersFollowersFollowing from './Components/UsersFollowingFollowers.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +82,14 @@ function App() {
           <Route
             path={pagePath.EDITPROFILE}
             element={<EditProfile/>}
+          />
+            <Route
+            path={pagePath.FOLLOWERSFOLLOWING}
+            element={<FollowersFollowing/>}
+          />
+           <Route
+            path={`${pagePath.USERSFOLLOWERSFOLLONG}/:id`}
+            element={<UsersFollowersFollowing/>}
           />
         </Route>
       </Route>

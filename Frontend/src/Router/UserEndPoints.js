@@ -9,5 +9,8 @@ export const userApiEndPoint = {
     SUGGESTUSER:"/user/suggestedUser",
     LIKEUNLIKE : "/post/like", 
     USERSPROFILE:"/user/users/profile",
-    EDITPROFILE:"/user/profile/edit"
+    EDITPROFILE:"/user/profile/edit",
+    FOLLOWERSFOLLOWING:"/user/contact",
+    USERSFOLLOWERSFOLLOWING:"user/users/contact"
+
 }

@@ -15,47 +15,47 @@ const cookieOptions = {
     maxAge: 24 * 60 * 60 * 1000
 };
 export const registerUser = async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
+    try {
+        const { username, email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({
-        message: "All fields are required",
-        status: false
-      });
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "All fields are required",
+                status: false
+            });
+        }
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.status(409).json({
+                message: "User already exists",
+                status: false
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+            username,
+            email,
+            password: hashedPassword
+        });
+
+        return res.status(201).json({
+            message: "User registered successfully",
+            user,
+            status: true
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: error.message,
+            status: false
+        });
     }
-
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      return res.status(409).json({
-        message: "User already exists",
-        status: false
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      username,
-      email,
-      password: hashedPassword
-    });
-
-    return res.status(201).json({
-      message: "User registered successfully",
-      user,
-      status: true
-    });
-
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      message: error.message,
-      status: false
-    });
-  }
 };
 //=====Login User=====
 export const loginUser = async (req, res) => {
@@ -64,24 +64,24 @@ export const loginUser = async (req, res) => {
         if (!email || !password) {
             return res.status(401).json({
                 message: "Somthing is missing , please check!",
-                status:false
+                status: false
             })
         }
         const isExist = await User.findOne({ email })
         if (!isExist) {
             return res.status(404).json({
                 message: "User not found",
-                status:false
+                status: false
             });
         }
         const compairPassword = await bcrypt.compare(password, isExist.password)
         if (!compairPassword) {
             return res.status(404).json({
                 message: "invailid credential",
-                status:false
+                status: false
             })
         }
-         const toSend = {
+        const toSend = {
             _id: isExist._id,
             username: isExist.username,
             email: isExist.email,
@@ -94,7 +94,7 @@ export const loginUser = async (req, res) => {
         }
         //  console.log(process.env.SECRET_KEY);
         const token = jwt.sign(
-            {user:toSend},
+            { user: toSend },
             process.env.SECRET_KEY,
             { expiresIn: "1d" }
         );
@@ -102,7 +102,7 @@ export const loginUser = async (req, res) => {
         res.status(200).json({
             message: `Login sucessfully ${isExist.username}`,
             toSend,
-            status:true
+            status: true
 
         })
     } catch (error) {
@@ -117,7 +117,7 @@ export const logoutuser = async (req, res) => {
         res.clearCookie("token", cookieOptions);
         return res.status(200).json({
             message: "Logged out successfully",
-            status:true
+            status: true
         });
     } catch (error) {
         return res.status(500).json({
@@ -133,13 +133,13 @@ export const userProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
-                status:false
+                status: false
             });
         }
         return res.status(200).json({
             message: "user profile",
             user,
-            status:true
+            status: true
         })
     } catch (error) {
         return res.status(500).json({
@@ -164,7 +164,7 @@ export const editProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
-                status:false
+                status: false
             });
         }
 
@@ -179,7 +179,7 @@ export const editProfile = async (req, res) => {
         return res.status(200).json({
             message: "Profile updated",
             user,
-            status:true
+            status: true
         });
 
     } catch (error) {
@@ -195,13 +195,13 @@ export const getSuggestedUser = async (req, res) => {
         if (!suggestUsers) {
             return res.status(400).json({
                 message: "Currently do not have any users",
-                status:false
+                status: false
             })
         }
         return res.status(200).json({
             message: "user fetch sucessfully",
             suggestUsers,
-            status:true
+            status: true
         })
     } catch (error) {
         return res.status(500).json({
@@ -215,9 +215,9 @@ export const followOrUnfollow = async (req, res) => {
         const followkarnewala = req.user._id;
         const jiskoFollowkarung = req.params.id;
         if (followkarnewala === jiskoFollowkarung) {
-           return res.status(400).json({
+            return res.status(400).json({
                 message: "you con not follow your self",
-                status:false
+                status: false
             })
         }
         const user = await User.findById(followkarnewala);
@@ -225,7 +225,7 @@ export const followOrUnfollow = async (req, res) => {
         if (!user || !targetUser) {
             return res.status(400).json({
                 message: "User not found",
-                status:false
+                status: false
             })
         }
         const isFollowing = user.following.includes(jiskoFollowkarung)
@@ -245,7 +245,7 @@ export const followOrUnfollow = async (req, res) => {
             ])
             return res.status(200).json({
                 message: "following successfully",
-                status:true
+                status: true
             })
         }
     } catch (error) {
@@ -254,47 +254,99 @@ export const followOrUnfollow = async (req, res) => {
         })
     }
 }
-export const authuser = async(req, res) => {
-  try {
-    const user = req.user;
-    // console.log(user);
-    // console.log(user._id);
-    if (!user) {
-      return res.status(401).json({ message: "User not authenticated" });
+export const authuser = async (req, res) => {
+    try {
+        const user = req.user;
+        // console.log(user);
+        // console.log(user._id);
+        if (!user) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+        return res.status(200).json({
+            message: "User authenticated",
+            user
+        });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
     }
-    return res.status(200).json({
-      message: "User authenticated",
-      user
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
 };
 //=====Users profile =====
 export const usersProfile = async (req, res) => {
-  try {
-    const userId = req.params.id;
+    try {
+        const userId = req.params.id;
 
-    const user = await User.findById(userId).populate({
-      path: "posts", // ✅ MUST be string
-      options: { sort: { createdAt: -1 } },
-    });
+        const user = await User.findById(userId).populate({
+            path: "posts", // ✅ MUST be string
+            options: { sort: { createdAt: -1 } },
+        });
 
-    if (!user) {
-      return res.status(404).json({
-        message: "User Not Found",
-      });
+        if (!user) {
+            return res.status(404).json({
+                message: "User Not Found",
+            });
+        }
+
+        return res.status(200).json({
+            message: "User Found successfully",
+            user,
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server Error",
+            error: error.message,
+        });
     }
+};
+//=====Get Folloing and Followrs of logged in user ======
+export const followingAndFollowers = async (req, res) => {
+    try {
+        const userId = req.user._id;
 
-    return res.status(200).json({
-      message: "User Found successfully",
-      user,
-    });
+        const user = await User.findById(userId)
+            .populate("followers", "username profilepic")
+            .populate("following", "username profilepic");
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
 
-  } catch (error) {
-    return res.status(500).json({
-      message: "Server Error",
-      error: error.message,
-    });
-  }
+        return res.status(200).json({
+            message: "Fetched followers and following successfully",
+            followers: user.followers,
+            following: user.following,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
+};
+export const UsersFollowingAndFollowers = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId)
+            .populate("followers", "username profilepic")
+            .populate("following", "username profilepic");
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Fetched followers and following successfully",
+            followers: user.followers,
+            following: user.following,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
 };

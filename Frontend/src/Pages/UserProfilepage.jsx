@@ -70,15 +70,21 @@ const dispatch = useDispatch()
               <div>
                 <span className="font-bold">
                   {profile?.followers?.length || 0}
-                </span>{" "}
+                </span>
+                <Link to={pagePath.FOLLOWERSFOLLOWING
+                }>
                 followers
+                </Link>
+                
               </div>
 
               <div>
                 <span className="font-bold">
                   {profile?.following?.length || 0}
                 </span>{" "}
-                following
+              <Link to={pagePath.FOLLOWERSFOLLOWING}>
+                Following
+                </Link>
               </div>
             </div>
 

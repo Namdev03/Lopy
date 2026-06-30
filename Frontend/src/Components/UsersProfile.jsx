@@ -94,14 +94,18 @@ function UsersProfile() {
                 <span className="font-bold">
                   {usersProfile.followers?.length || 0}
                 </span>{" "}
+                <Link to={`${pagePath.USERSFOLLOWERSFOLLONG}/${usersProfile._id}`}>
                 followers
+                </Link>
               </div>
 
               <div>
                 <span className="font-bold">
                   {usersProfile.following?.length || 0}
                 </span>{" "}
+                <Link to={`${pagePath.USERSFOLLOWERSFOLLONG}/${usersProfile._id}`}>
                 following
+                </Link>
               </div>
             </div>
 

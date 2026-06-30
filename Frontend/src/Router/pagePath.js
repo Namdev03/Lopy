@@ -12,5 +12,8 @@ export const pagePath = {
    USERONEPOST:"/user/post",
    MESSAGE:"/user/messages",
    USERSPROFILE:"/user/Profile",
-   EDITPROFILE:"/user/profile/edit"
+   EDITPROFILE:"/user/profile/edit",
+   FOLLOWERSFOLLOWING:"/user/profile/contact",
+   USERSFOLLOWERSFOLLONG:"/users/profile/contact"
+   
 }
