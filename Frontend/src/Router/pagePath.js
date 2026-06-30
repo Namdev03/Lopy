@@ -11,5 +11,6 @@ export const pagePath = {
    SEARCH:"/search",
    USERONEPOST:"/user/post",
    MESSAGE:"/user/messages",
-   USERSPROFILE:"/user/Profile"
+   USERSPROFILE:"/user/Profile",
+   EDITPROFILE:"/user/profile/edit"
 }

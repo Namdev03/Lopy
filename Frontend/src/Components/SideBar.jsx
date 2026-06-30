@@ -16,8 +16,8 @@ const navItems = [
   { id: 1, name: "Home", icon: Home ,path:'/home'},
   { id: 2, name: "Search", icon: Search,path:'/search' },
   { id: 3, name: "Reels", icon: Clapperboard },
-  { id: 4, name: "Messages", icon: Send, badge: 7,path:"/user/messages" },
-  { id: 5, name: "Notifications", icon: Heart, badge: 12 },
+  { id: 4, name: "Messages", icon: Send,path:"/user/messages" },
+  { id: 5, name: "Notifications", icon: Heart,},
   { id: 6, name: "Create", icon: SquarePlus, path:"/newpost"},
 ];
 export default function Sidebar() {

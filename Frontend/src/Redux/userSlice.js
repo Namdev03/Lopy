@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginApi, meApi, suggesteUserApi, userProfileApi, usersProfileApi } from "../Services/userApiCollection";
+import { loginApi, logoutApi, meApi, suggesteUserApi, userProfileApi, usersProfileApi } from "../Services/userApiCollection";
 
 const initialState = {
   isLoggedIn: false,
@@ -8,9 +8,9 @@ const initialState = {
   profile: null,
   userDetails: null,
   suggestedUsers: null,
-  suggestionLoading:false,
-  usersProfileLoading :true,
-  usersProfile :null,
+  suggestionLoading: false,
+  usersProfileLoading: true,
+  usersProfile: null,
 };
 // ===== Login User =====
 export const loginUserAsync = createAsyncThunk(
@@ -63,14 +63,22 @@ export const suggestedUserAsync = createAsyncThunk("/user/suggest", async (_, { 
     return rejectWithValue(error.response);
   }
 });
-export const usersProfileAsync = createAsyncThunk("/users/profile",async (id,{rejectWithValue}) => {
+export const usersProfileAsync = createAsyncThunk("/users/profile", async (id, { rejectWithValue }) => {
   try {
     const response = await usersProfileApi(id);
-    return response;    
+    return response;
   } catch (error) {
-    return error.response;
+    return rejectWithValue(error.response);
   }
-}) 
+});
+export const logoutAsync = createAsyncThunk("/user/logout", async (_, { rejectWithValue }) => {
+  try {
+    const response = await logoutApi()
+    return response
+  } catch (error) {
+    return rejectWithValue(error.response);
+  }
+})
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -85,6 +93,7 @@ const userSlice = createSlice({
         state.isLoggedIn = true;
         state.userDetails = action.payload;
         state.userId = action.payload?.toSend._id; // or action.payload.id
+        state.profile = action.payload.toSend;
       })
       .addCase(loginUserAsync.rejected, (state) => {
         state.isLoading = false;
@@ -115,13 +124,19 @@ const userSlice = createSlice({
       .addCase(suggestedUserAsync.rejected, (state, action) => {
         state.suggestionLoading = true;
         state.error = action.payload;
-      }).addCase(usersProfileAsync.pending,(state) => {
+      }).addCase(usersProfileAsync.pending, (state) => {
         state.usersProfileLoading = true;
-      }).addCase(usersProfileAsync.fulfilled,(state,action) => {
+      }).addCase(usersProfileAsync.fulfilled, (state, action) => {
         state.usersProfileLoading = false;
         state.usersProfile = action.payload.user;
-      }).addCase(usersProfileAsync.rejected,(state) => {
+      }).addCase(usersProfileAsync.rejected, (state) => {
         state.usersProfileLoading = true;
+      }).addCase(logoutAsync.pending ,(state)=>{
+        state.isLoggedIn = true;
+      }).addCase(logoutAsync.fulfilled,(state)=>{
+        state.isLoggedIn = false;
+      }).addCase(logoutAsync.rejected, (state)=>{
+        state.isLoggedIn = true;
       })
   },
 });

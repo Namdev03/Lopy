@@ -23,6 +23,7 @@ import UserOnePost from './Components/UserOnePost.jsx'
 import Message from './Pages/message.jsx'
 import Messages from './Components/Messages.jsx'
 import UsersProfile from './Components/UsersProfile.jsx'
+import EditProfile from './Components/EditProfile.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -62,19 +63,23 @@ function App() {
           />
           <Route
             path={`${pagePath.USERONEPOST}/:id`}
-            element={<UserOnePost/>}
+            element={<UserOnePost />}
           />
-            <Route
+          <Route
             path={pagePath.MESSAGE}
-            element={<Message/>}
+            element={<Message />}
           />
-            <Route
+          <Route
             path={`${pagePath.MESSAGE}/:id`}
-            element={<Messages/>}
+            element={<Messages />}
           />
-           <Route
+          <Route
             path={`${pagePath.USERSPROFILE}/:id`}
-            element={<UsersProfile/>}
+            element={<UsersProfile />}
+          />
+          <Route
+            path={pagePath.EDITPROFILE}
+            element={<EditProfile/>}
           />
         </Route>
       </Route>

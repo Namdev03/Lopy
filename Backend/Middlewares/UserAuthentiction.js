@@ -9,7 +9,7 @@ const userAuthentiction = async (req, res, next) => {
         
         if (!token) {
             return res.status(401).json({
-                message: " hii user not authenticated",
+                message: "user not authenticated",
             })
         }
         const decode = await jwt.verify(token, process.env.SECRET_KEY)

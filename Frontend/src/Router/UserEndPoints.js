@@ -8,5 +8,6 @@ export const userApiEndPoint = {
     USERPROFILE:"/user/profile",
     SUGGESTUSER:"/user/suggestedUser",
     LIKEUNLIKE : "/post/like", 
-    USERSPROFILE:"/user/users/profile"
+    USERSPROFILE:"/user/users/profile",
+    EDITPROFILE:"/user/profile/edit"
 }

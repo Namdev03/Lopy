@@ -10,12 +10,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { userProfileApi } from "../Services/userApiCollection";
 import ProfileTabs from "../Components/ProfileTab";
-import { userprofileAsync } from "../Redux/userSlice";
+import { logoutAsync, userprofileAsync } from "../Redux/userSlice";
+import { Link } from "react-router";
+import { pagePath } from "../Router/pagePath";
 
 const UserProfilePage = () => {
 
 const dispatch = useDispatch()
-  const {profile } = useSelector((state) => state.user);
+  const {profile,isLoggedIn } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(userprofileAsync())
   },[dispatch]);
@@ -44,17 +46,19 @@ const dispatch = useDispatch()
               </h1>
 
               <div className="flex gap-2">
-                <button className="px-4 py-2 bg-gray-100 rounded-lg">
+                <Link to={pagePath.EDITPROFILE} className="px-4 py-2 bg-gray-100 rounded-lg">
                   <Edit size={16} className="inline mr-2" />
                   Edit Profile
-                </button>
-
-                <button className="p-2 bg-gray-100 rounded-lg">
+                </Link>
+                  
+                {/* <button className="p-2 bg-gray-100 rounded-lg">
                   <Settings size={20} />
+                </button> */}
+                 <button onClick={()=>dispatch(logoutAsync())} className="p-2 bg-gray-100 rounded-lg">
+                  Logout
                 </button>
               </div>
             </div>
-
             <div className="flex gap-8 mt-6">
               <div>
                 <span className="font-bold">
