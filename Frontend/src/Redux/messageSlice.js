@@ -8,7 +8,6 @@ export const getMessageAsync = createAsyncThunk("/get/message",async (id,{reject
     try {
         const response = await getMessagesApi(id);
         console.log(response);
-        
         return response
     } catch (error) {
         return rejectWithValue( error.response);
