@@ -10,8 +10,8 @@ import Post from "../Model/Post.model.js"
 //=====Register User=====
 const cookieOptions = {
     httpOnly: true,
-    secure: false,      // required with SameSite=None
-    sameSite: "Lax",
+    secure: true,      // required with SameSite=None
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000
 };
 export const registerUser = async (req, res) => {
