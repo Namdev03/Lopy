@@ -7,7 +7,6 @@ const initialState = {
 export const getMessageAsync = createAsyncThunk("/get/message",async (id,{rejectWithValue}) => {
     try {
         const response = await getMessagesApi(id);
-        console.log(response);
         return response
     } catch (error) {
         return rejectWithValue( error.response);

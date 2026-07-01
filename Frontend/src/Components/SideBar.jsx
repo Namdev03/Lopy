@@ -9,32 +9,36 @@ import {
   Heart,
   SquarePlus,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { pagePath } from "../Router/pagePath";
 
 const navItems = [
   { id: 1, name: "Home", icon: Home ,path:'/home'},
   { id: 2, name: "Search", icon: Search,path:'/search' },
-  { id: 3, name: "Reels", icon: Clapperboard },
+  { id: 3, name: "Reels", icon: Clapperboard, path:`${pagePath.POSTS}` },
   { id: 4, name: "Messages", icon: Send,path:"/user/messages" },
   { id: 5, name: "Notifications", icon: Heart,},
   { id: 6, name: "Create", icon: SquarePlus, path:"/newpost"},
 ];
 export default function Sidebar() {
-  const [activeItem, setActiveItem] = useState(1);
-  const {profile } = useSelector((state) => state.user);
+  const { profile } = useSelector((state) => state.user);
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
+
   return (
     <>
       {/* Desktop Sidebar */}
       <aside className="fixed left-0 top-0 z-50 hidden md:flex h-screen flex-col bg-white border-r border-zinc-200 w-20 xl:w-72">
-        {/* Logo */}
-        <div className="h-20 flex items-center justify-center xl:justify-start px-4 xl:px-6">
-          <img src={logo} alt="Lopy" className="w-10 h-10 rounded-full object-cover" />
 
-          <h1 className="hidden xl:block ml-3 text-xl font-bold">
-            Lopy
-          </h1>
-        </div>
+        {/* Logo */}
+        <Link
+          to={pagePath.MAINHOME}
+          className="h-20 flex items-center justify-center xl:justify-start px-4 xl:px-6"
+        >
+          <img src={logo} alt="Lopy" className="w-10 h-10 rounded-full object-cover" />
+          <h1 className="hidden xl:block ml-3 text-xl font-bold">Lopy</h1>
+        </Link>
 
         {/* Navigation */}
         <nav className="flex-1 px-3 py-4">
@@ -44,33 +48,25 @@ export default function Sidebar() {
             return (
               <Link
                 key={item.id}
-               to={item.path}
+                to={item.path}
                 className={`relative flex items-center justify-center xl:justify-start gap-4 w-full p-3 rounded-xl mb-2 transition-all ${
-                  activeItem === item.id
+                  isActive(item.path)
                     ? "bg-zinc-100 shadow-md"
                     : "hover:bg-zinc-100"
                 }`}
               >
-                <div className="relative">
-                  <Icon
-                    size={24}
-                    className={
-                      activeItem === item.id
-                        ? "text-black"
-                        : "text-zinc-600"
-                    }
-                  />
-
-                  {item.badge && (
-                    <span className="absolute -right-2 -top-2 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center">
-                      {item.badge}
-                    </span>
-                  )}
-                </div>
+                <Icon
+                  size={24}
+                  className={
+                    isActive(item.path)
+                      ? "text-black"
+                      : "text-zinc-600"
+                  }
+                />
 
                 <span
                   className={`hidden xl:block ${
-                    activeItem === item.id
+                    isActive(item.path)
                       ? "font-semibold"
                       : "font-medium"
                   }`}
@@ -84,7 +80,10 @@ export default function Sidebar() {
 
         {/* Profile */}
         <div className="border-t border-zinc-200 p-4">
-          <Link to={pagePath.USERPROFILE} className="flex items-center gap-3 w-full rounded-xl p-2 hover:bg-zinc-100">
+          <Link
+            to={pagePath.USERPROFILE}
+            className="flex items-center gap-3 w-full rounded-xl p-2 hover:bg-zinc-100"
+          >
             <img
               src={profile?.profilepic}
               alt="profile"
@@ -92,8 +91,12 @@ export default function Sidebar() {
             />
 
             <div className="hidden xl:block text-left">
-              <h4 className="font-semibold text-sm">{profile?.username}</h4>
-              <p className="text-xs text-zinc-500">View Profile</p>
+              <h4 className="font-semibold text-sm">
+                {profile?.username}
+              </h4>
+              <p className="text-xs text-zinc-500">
+                View Profile
+              </p>
             </div>
           </Link>
         </div>
@@ -107,11 +110,10 @@ export default function Sidebar() {
 
             return (
               <Link
-                 key={item.id}
-               to={item.path}
-                onClick={() => setActiveItem(item.id)}
+                key={item.id}
+                to={item.path}
                 className={`relative p-2 rounded-xl transition ${
-                  activeItem === item.id
+                  isActive(item.path)
                     ? "bg-zinc-100 shadow-md"
                     : ""
                 }`}
@@ -119,32 +121,22 @@ export default function Sidebar() {
                 <Icon
                   size={24}
                   className={
-                    activeItem === item.id
+                    isActive(item.path)
                       ? "text-black"
                       : "text-zinc-600"
                   }
                 />
-
-                {item.badge && (
-                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center">
-                    {item.badge}
-                  </span>
-                )}
               </Link>
             );
           })}
-     <Link  to={pagePath.USERPROFILE} >
-          <img
-          to={pagePath.USERPROFILE}
-            src={profile?.profilepic}
-            alt="profile"
-            className={`w-8 h-8 rounded-full cursor-pointer transition ${
-              activeItem === 99
-                ? "ring-2 ring-black"
-                : ""
-            }`}
-            onClick={() => setActiveItem(99)}
-          />
+
+          {/* Profile */}
+          <Link to={pagePath.USERPROFILE}>
+            <img
+              src={profile?.profilepic}
+              alt="profile"
+              className="w-8 h-8 rounded-full"
+            />
           </Link>
         </div>
       </div>

@@ -8,6 +8,7 @@ export const pagePath = {
    USERPROFILE:'/profile',
    COMMENT:"/comment",
    NEWPOST:"/newpost",
+   POSTS:"/posts",
    SEARCH:"/search",
    USERONEPOST:"/user/post",
    MESSAGE:"/user/messages",

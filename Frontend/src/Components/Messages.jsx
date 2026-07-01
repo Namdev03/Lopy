@@ -9,7 +9,6 @@ import { messageApiEndPoint } from "../Router/messageApiEndPoint";
 export default function MessagesPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
-
   const [message, setMessage] = useState("");
 
   useEffect(() => {

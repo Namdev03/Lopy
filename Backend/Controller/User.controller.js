@@ -325,6 +325,7 @@ export const followingAndFollowers = async (req, res) => {
         });
     }
 };
+//=====get users followers and following=====
 export const UsersFollowingAndFollowers = async (req, res) => {
     try {
         const userId = req.params.id;

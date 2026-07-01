@@ -26,6 +26,7 @@ import UsersProfile from './Components/UsersProfile.jsx'
 import EditProfile from './Components/EditProfile.jsx'
 import FollowersFollowing from './Components/FollowersFollowing.jsx'
 import UsersFollowersFollowing from './Components/UsersFollowingFollowers.jsx'
+import Posts from './Components/Posts.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -90,6 +91,10 @@ function App() {
            <Route
             path={`${pagePath.USERSFOLLOWERSFOLLONG}/:id`}
             element={<UsersFollowersFollowing/>}
+          />
+           <Route
+            path={pagePath.POSTS}
+            element={<Posts/>}
           />
         </Route>
       </Route>

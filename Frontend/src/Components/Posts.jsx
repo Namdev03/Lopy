@@ -11,7 +11,7 @@ import { Link } from "react-router"
 import { pagePath } from "../Router/pagePath";
 import { userprofileAsync } from "../Redux/userSlice";
 
-export default function PostCard() {
+export default function Posts() {
   const dispatch = useDispatch();
   const { allPost, isLoading } = useSelector((store) => store.post);
   const { profile } = useSelector((store) => store.user);

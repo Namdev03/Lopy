@@ -2,6 +2,7 @@ import express from "express";
 import { registerUser,loginUser,logoutuser,userProfile,editProfile,getSuggestedUser,followOrUnfollow, authuser, usersProfile, followingAndFollowers, UsersFollowingAndFollowers} from "../Controller/User.controller.js";
 import userAuthentiction from "../Middlewares/UserAuthentiction.js";
 import upload from "../Config/Multer.config.js";
+import { getmessage } from "../Controller/Message..controller.js";
 //===== instance of express ======
 const userRouter = express.Router();
 //=====endpoints=====
@@ -26,5 +27,5 @@ userRouter.get("/users/profile/:id",userAuthentiction,usersProfile)
 //======Get followers and Following =====
 userRouter.get("/contact",userAuthentiction,followingAndFollowers)
 //===== Get users followers and Following =====
-userRouter.get("/users/contact/:id",userAuthentiction,UsersFollowingAndFollowers)
+userRouter.get("/users/contact/:id",userAuthentiction,UsersFollowingAndFollowers);
 export default userRouter;
