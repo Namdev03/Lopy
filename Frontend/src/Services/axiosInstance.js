@@ -1,5 +1,5 @@
 import axios from 'axios';
  export const axiosInstance = axios.create({
-    baseURL:import.meta.env.VITE_PUBLIC_API_URL,
+    baseURL:"https://lopy-4tkd.onrender.com",
     withCredentials:true
 })
