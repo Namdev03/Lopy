@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../Services/axiosInstance";
 import { userApiEndPoint } from "../Router/UserEndPoints";
-import { pagePath } from "../Router/PagePath"; // change path if needed
+import { pagePath } from "../Router/pagePath"; // change path if needed
 
 export default function EditProfile() {
   const navigate = useNavigate();
